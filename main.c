@@ -29,6 +29,32 @@ struct stats {
     uint32_t  tx_bytes;
 };
 
+char* readable_fs(double size/*in bytes*/, char *buf) {
+    int i = 0;
+    const char* units[] = {"B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+    while (size >= 1024) {
+        size /= 1024;
+        i++;
+    }
+    return buf;
+}
+
+static char *
+human_readable (double bytes, char *buf)
+{
+    const char *units[] = {"B", "KB", "MB", "GB"};
+    int i = 0;
+
+    while (bytes >= 1024)
+    {
+        bytes /= 1024;
+        ++i;
+    }
+
+    sprintf (buf, "%.*f%s", i, bytes, units[i]);
+    return buf;
+}
+
 static int
 get_default_interface (char **ifa_name)
 {
@@ -234,12 +260,17 @@ parse_args (int argc, char *argv[], struct state *s)
     if (s->verbose) 
     {
         if (s->countdown)
+        {
+            char buf[10];
             printf (
-                "Running in countdown mode. Available bytes: %lu\n", 
-                s->available
+                "Running in countdown mode. Available bytes: %s\n", 
+                human_readable (s->available, buf)
             ); 
+        }
         else
+        {
             printf ("Not using countdown mode.\n"); 
+        }
     }
 
     arg_freetable (argtable, sizeof(argtable) / sizeof(argtable[0]));
@@ -252,6 +283,8 @@ draw_bar (struct state *state)
     size_t indent = strlen (state->ifa_name) + 3;
     double tot = (double) state->available + state->used, 
            r   = tot > 0 ? state->available / tot : 0;
+    char available_buf[10];
+    char used_buf[10];
 
     wmove (state->win, 1, 2);
     wprintw (state->win, "%s", state->ifa_name);
@@ -269,7 +302,23 @@ draw_bar (struct state *state)
     waddch (state->win, ']');
 
     wmove (state->win, 3, 2);
-    wprintw (state->win, "Remaining: %d | Used: %d | Press 'q' to exit", state->available, state->used);
+
+    human_readable (state->available, available_buf);
+    human_readable (state->used, used_buf);
+
+    wprintw (
+        state->win, "Remaining: %s | Used: %s | Press 'q' to exit", 
+        available_buf, used_buf
+    );
+
+    /*
+    wprintw (
+        state->win, 
+        "Remaining: %d | Used: %d | Press 'q' to exit", 
+        state->available, 
+        state->used
+    );
+    */
 
     box (state->win, 0, 0);
     wmove (state->win, 0, 4);
