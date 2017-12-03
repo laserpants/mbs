@@ -292,10 +292,11 @@ draw_bar (struct state *state)
     wmove (state->win, 1, indent);
     waddch (state->win, '[');
 
-    for (i = 0; i < WIN_WIDTH * r; ++i)
-    {
+    for (i = 0; i < WIN_WIDTH * r - 1; ++i)
         waddch (state->win, '=');
-    }
+
+    waddch (state->win, '|');
+
     wclrtobot (state->win);
 
     wmove (state->win, 1, indent + WIN_WIDTH + 1);
@@ -399,6 +400,8 @@ main (int argc, char *argv[])
             if (state.countdown && !state.available)
                 break;
         }
+
+        usleep (100000);
     }
 
     free (state.ifa_name);
