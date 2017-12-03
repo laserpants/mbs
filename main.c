@@ -58,9 +58,47 @@ poll_interfaces (struct context *ctx, struct stats *stats)
     return -1;
 }
 
+struct arg_lit *verb, *help, *version;
+struct arg_end *end;
+
 int 
 main (int argc, char *argv[])
 {
+    void *argtable[] = {
+        help    = arg_litn(NULL, "help", 0, 1, "display this help and exit"),
+        version = arg_litn(NULL, "version", 0, 1, "display version info and exit"),
+        verb    = arg_litn("v", "verbose", 0, 1, "verbose output"),
+        end     = arg_end(20),
+    };
+
+    int exitcode = 0;
+    char command[] = "main";
+    
+    int nerrors;
+    nerrors = arg_parse (argc,argv,argtable);
+
+    if (help->count > 0)
+    {
+        printf("Usage: %s", command);
+        arg_print_syntax(stdout, argtable, "\n");
+        printf("Demonstrate command-line parsing in argtable3.\n\n");
+        arg_print_glossary(stdout, argtable, "  %-25s %s\n");
+        exitcode = 0;
+        arg_freetable(argtable, sizeof(argtable) / sizeof(argtable[0]));
+        return exitcode;
+    }
+
+    if (nerrors > 0)
+    {
+        arg_print_errors(stdout, end, command);
+        printf("Try '%s --help' for more information.\n", command);
+        exitcode = 1;
+        arg_freetable(argtable, sizeof(argtable) / sizeof(argtable[0]));
+        return exitcode;
+    }
+
+    /* -- */
+
     struct context ctx;
     struct stats stats = { 0, 0, NULL };
 
