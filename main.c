@@ -1,5 +1,6 @@
 #define _BSD_SOURCE
 
+#include <curses.h>
 #include <ifaddrs.h>
 #include <linux/if_link.h>
 #include <net/if.h>
@@ -11,6 +12,8 @@
 #include <unistd.h>
 #include "argtable3.h"
 
+#define WIN_WIDTH 50
+
 struct state {
     uint32_t  snapshot;
     uint64_t  available;
@@ -18,6 +21,7 @@ struct state {
     int       verbose;
     int       countdown;
     char     *ifa_name;
+    WINDOW   *win;
 };
 
 struct stats {
@@ -25,16 +29,15 @@ struct stats {
     uint32_t  tx_bytes;
 };
 
-static char *
-get_default_interface ()
+static int
+get_default_interface (char **ifa_name)
 {
     struct ifaddrs *ifa0, *ifa;
-    char  *ifa_name = NULL;
 
     if (getifaddrs (&ifa0) == -1)
     {
         perror ("getifaddrs");
-        exit (EXIT_FAILURE);
+        return -1;
     }
 
     for (ifa = ifa0; ifa != NULL; ifa = ifa->ifa_next)
@@ -51,12 +54,14 @@ get_default_interface ()
         if ((strcmp ("lo", ifa->ifa_name) == 0) || !ifa_running)
             continue;
 
-        ifa_name = strdup (ifa->ifa_name);
-        break;
+        *ifa_name = strdup (ifa->ifa_name);
+
+        freeifaddrs (ifa0);
+        return 0;
     }
 
     freeifaddrs (ifa0);
-    return ifa_name;
+    return -1;
 }
 
 static int 
@@ -67,6 +72,13 @@ poll_interfaces (struct state *s, struct stats *stats)
     if (getifaddrs (&ifa0) == -1)
     {
         perror ("getifaddrs");
+
+        if (s->win != NULL)
+        {
+            delwin (s->win);
+            endwin ();
+        }
+
         exit (EXIT_FAILURE);
     }
 
@@ -74,7 +86,7 @@ poll_interfaces (struct state *s, struct stats *stats)
     {
         const unsigned short int sa_family = ifa->ifa_addr->sa_family;
 
-        if (sa_family == AF_PACKET && 0 == strcmp (ifa->ifa_name, s->ifa_name)) 
+        if (sa_family == AF_PACKET && 0 == strcmp (ifa->ifa_name, s->ifa_name))  
         {
             const struct rtnl_link_stats *if_stats = ifa->ifa_data;
 
@@ -191,7 +203,7 @@ parse_args (int argc, char *argv[], struct state *s)
     {
         printf ("Usage: %s", command);
         arg_print_syntax (stdout, argtable, "\n");
-        printf ("Demonstrate command-line parsing in argtable3.\n\n");
+        printf ("Track amount of data transferred over a network interface.\n\n");
         arg_print_glossary (stdout, argtable, "  %-25s %s\n");
         arg_freetable (argtable, sizeof (argtable) / sizeof (argtable[0]));
         exit (EXIT_SUCCESS);
@@ -205,8 +217,16 @@ parse_args (int argc, char *argv[], struct state *s)
         exit (EXIT_FAILURE);
     }
 
-    s->ifa_name = strlen (*iface->sval) ? strdup (*iface->sval) 
-                                        : get_default_interface ();
+    if (strlen (*iface->sval) > 0)
+    {
+        s->ifa_name = strdup (*iface->sval);
+    }
+    else if (-1 == get_default_interface (&s->ifa_name))
+    {
+        fprintf (stderr, "No active network interface found.\n");
+        exit (EXIT_FAILURE);
+    }
+
     s->verbose = !!verb->count;
     s->available = parse_bytes (*available->sval); 
     s->countdown = !!available->count;
@@ -225,21 +245,67 @@ parse_args (int argc, char *argv[], struct state *s)
     arg_freetable (argtable, sizeof(argtable) / sizeof(argtable[0]));
 }
 
+static void
+draw_bar (struct state *state)
+{
+    int i;
+    size_t indent = strlen (state->ifa_name) + 3;
+    double tot = (double) state->available + state->used, 
+           r   = tot > 0 ? state->available / tot : 0;
+
+    wmove (state->win, 1, 2);
+    wprintw (state->win, "%s", state->ifa_name);
+
+    wmove (state->win, 1, indent);
+    waddch (state->win, '[');
+
+    for (i = 0; i < WIN_WIDTH * r; ++i)
+    {
+        waddch (state->win, '=');
+    }
+    wclrtobot (state->win);
+
+    wmove (state->win, 1, indent + WIN_WIDTH + 1);
+    waddch (state->win, ']');
+
+    wmove (state->win, 3, 2);
+    wprintw (state->win, "Remaining: %d | Used: %d | Press 'q' to exit", state->available, state->used);
+
+    box (state->win, 0, 0);
+    wmove (state->win, 0, 4);
+    wprintw (state->win, " anwendbar ");
+
+    wrefresh (state->win);
+}
+
 int 
 main (int argc, char *argv[])
 {
     struct state state = {
-        0,   /* snapshot */
-        0,   /* available */
-        0,   /* used */
-        0,   /* verbose */
-        0,   /* countdown */
-        NULL /* ifa_name */
+        0,    /* snapshot */
+        0,    /* available */
+        0,    /* used */
+        0,    /* verbose */
+        0,    /* countdown */
+        NULL, /* ifa_name */
+        NULL  /* ncurses WINDOW */
     };
 
     struct stats stats = { 0, 0, NULL };
 
     parse_args (argc, argv, &state);
+
+    if (NULL == initscr ())
+    {
+        fprintf (stderr, "Error initializing ncurses.\n");
+        exit (EXIT_FAILURE);
+    }
+
+    curs_set (0);
+    noecho ();
+    nodelay (stdscr, 1);
+
+    state.win = newwin (5, 7 + WIN_WIDTH + strlen (state.ifa_name), 0, 0);
 
     if (-1 == poll_interfaces (&state, &stats))
     {
@@ -252,11 +318,15 @@ main (int argc, char *argv[])
     if (state.verbose)
         printf ("Using network interface %s.\n", state.ifa_name);
 
-    while (1)
+    while ('q' != getch())
     {
         if (-1 == poll_interfaces (&state, &stats))
         {
+            delwin (state.win);
+            endwin ();
+
             fprintf (stderr, "No such interface: %s", state.ifa_name);
+            exit (EXIT_FAILURE);
         } 
         else
         {
@@ -275,20 +345,20 @@ main (int argc, char *argv[])
 
             state.snapshot = txrx;
 
-            printf ("Used      : %lu\n", state.used);
-            printf ("Available : %lu\n", state.available);
+            draw_bar (&state);
 
             if (state.countdown && !state.available)
-            {
-                printf ("Data limit exceeded.\n");
                 break;
-            }
         }
-
-        usleep (100000);
     }
 
     free (state.ifa_name);
+
+    delwin (state.win);
+    endwin ();
+
+    if (state.countdown && !state.available)
+        printf ("Data limit exceeded.\n");
 
     return 0;
 }
