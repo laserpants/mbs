@@ -1,3 +1,5 @@
+#define _BSD_SOURCE
+
 #include <ifaddrs.h>
 #include <linux/if_link.h>
 #include <stdint.h>
@@ -6,6 +8,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "argtable3.h"
 
 struct context {
     uint32_t  offset;
@@ -59,10 +62,11 @@ int
 main (int argc, char *argv[])
 {
     struct context ctx;
-    struct stats stats;
+    struct stats stats = { 0, 0, NULL };
 
     ctx.offset = 0;
     ctx.available = 8000;
+
     ctx.ifa = strdup ("wlp2s0");
 
     if (-1 == poll_interfaces (&ctx, &stats))
