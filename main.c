@@ -77,7 +77,7 @@ main (int argc, char *argv[])
 
     stash_parse_args (argc, argv, &state);
 
-    if (-1 == poll_interfaces (&state, &stats))
+    if (-1 == stash_poll_interfaces (&state, &stats))
     {
         fprintf (stderr, "No such interface: %s\n", state.ifa_name);
         free (state.ifa_name);
@@ -105,7 +105,7 @@ main (int argc, char *argv[])
     /* Run main loop until SIGINT signal is received. */
     while (true == loop)
     {
-        if (-1 == poll_interfaces (&state, &stats))
+        if (-1 == stash_poll_interfaces (&state, &stats))
         {
             fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
             status = -1;

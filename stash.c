@@ -1,28 +1,12 @@
 #define _BSD_SOURCE 
 
 #include <ifaddrs.h>
+#include <linux/if_link.h>
 #include <net/if.h>
 #include <stdlib.h>
 #include <string.h>
-#include "stash.h"
-#include "parse_bytes.h"
 #include "argtable3/argtable3.h"
-
-static char *
-human_readable (double bytes, char *buf)
-{
-    const char *units[] = {"B", "K", "M", "G", "T"};
-    int i = 0;
-
-    while (bytes >= 1024)
-    {
-        bytes /= 1024;
-        ++i;
-    }
-
-    sprintf (buf, "%.*f%s", i, bytes, units[i]);
-    return buf;
-}
+#include "stash.h"
 
 static int
 get_default_interface (char **ifa_name)
@@ -59,7 +43,89 @@ get_default_interface (char **ifa_name)
     return -1;
 }
 
-void stash_parse_args (int argc, char *argv[], struct stash *s)
+char *
+to_human_readable (double bytes, char *buf)
+{
+    const char *units[] = {"B", "K", "M", "G", "T"};
+    int i = 0;
+
+    while (bytes >= 1024)
+    {
+        bytes /= 1024;
+        ++i;
+    }
+
+    sprintf (buf, "%.*f%s", i, bytes, units[i]);
+    return buf;
+}
+
+int
+parse_bytes (const char *str, uint64_t *result)
+{
+    char *suffix;
+    uint64_t b;
+
+    if (NULL == str || 0 == strlen (str))
+    {
+        *result = 0;
+        return 0;
+    }
+
+    b = strtoull (str, &suffix, 10);
+
+    if (0 == strlen (suffix) || 
+        0 == strcmp ("B", suffix) || 
+        0 == strcmp ("b", suffix) )
+    {
+        *result = b;
+        return 0;
+    }
+    else if (0 == strcmp ("kB", suffix) || 
+             0 == strcmp ("k", suffix))
+    {
+        *result = 1000 * b;
+        return 0;
+    }
+    else if (0 == strcmp ("KB", suffix) || 
+             0 == strcmp ("K", suffix)  || 
+             0 == strcmp ("KiB", suffix))
+    {
+        *result = b << 10;
+        return 0;
+    }
+    else if (0 == strcmp ("mB", suffix) || 
+             0 == strcmp ("m", suffix))
+    {
+        *result = 1000 * 1000 * b;
+        return 0;
+    }
+    else if (0 == strcmp ("MB", suffix) || 
+             0 == strcmp ("M", suffix)  ||
+             0 == strcmp ("MiB", suffix))
+    {
+        *result = b << 20;
+        return 0;
+    }
+    else if (0 == strcmp ("gB", suffix) || 
+             0 == strcmp ("g", suffix))
+    {
+        *result = 1000 * 1000 * 1000 * b;
+        return 0;
+    }
+    else if (0 == strcmp ("GB", suffix) || 
+             0 == strcmp ("G", suffix)  ||
+             0 == strcmp ("GiB", suffix))
+    {
+        *result = b << 30;
+        return 0;
+    }
+
+    fprintf (stderr, "Unrecognized suffix: %s\n", suffix);
+    return -1;
+}
+
+void 
+stash_parse_args (int argc, char *argv[], struct stash *s)
 {
     struct arg_lit *verb, 
                    *help, 
@@ -147,7 +213,7 @@ void stash_parse_args (int argc, char *argv[], struct stash *s)
 
             printf (
                 "Running in countdown mode. Available data: %s\n", 
-                human_readable (s->balance, buf)
+                to_human_readable (s->balance, buf)
             ); 
         }
         else
@@ -157,4 +223,35 @@ void stash_parse_args (int argc, char *argv[], struct stash *s)
     }
 
     arg_freetable (argtable, sizeof(argtable) / sizeof(argtable[0]));
+}
+
+int 
+stash_poll_interfaces (struct stash *s, struct stats *stats)
+{
+    struct ifaddrs *ifa0, *ifa;
+
+    if (getifaddrs (&ifa0) == -1)
+    {
+        perror ("getifaddrs");
+        exit (EXIT_FAILURE);
+    }
+
+    for (ifa = ifa0; ifa != NULL; ifa = ifa->ifa_next)
+    {
+        const unsigned short int sa_family = ifa->ifa_addr->sa_family;
+
+        if (sa_family == AF_PACKET && 0 == strcmp (ifa->ifa_name, s->ifa_name))  
+        {
+            const struct rtnl_link_stats *if_stats = ifa->ifa_data;
+
+            stats->rx_bytes = if_stats->rx_bytes;
+            stats->tx_bytes = if_stats->tx_bytes;
+
+            freeifaddrs (ifa0);
+            return 0;
+        }
+    }
+
+    freeifaddrs (ifa0);
+    return -1;
 }
