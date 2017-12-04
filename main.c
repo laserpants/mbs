@@ -1,9 +1,9 @@
 #define _BSD_SOURCE
 
-#include <curses.h>
 #include <ifaddrs.h>
 #include <linux/if_link.h>
 #include <net/if.h>
+#include <signal.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,36 +13,36 @@
 #include "argtable3.h"
 
 #define WIN_WIDTH 50
+#define CSI "\e["
 
-struct state {
+struct state 
+{
     uint32_t  snapshot;
     uint64_t  available;
     uint64_t  used;
     int       verbose;
     int       countdown;
     char     *ifa_name;
-    WINDOW   *win;
 };
 
-struct stats {
+struct stats 
+{
     uint32_t  rx_bytes;
     uint32_t  tx_bytes;
 };
 
-char* readable_fs(double size/*in bytes*/, char *buf) {
-    int i = 0;
-    const char* units[] = {"B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
-    while (size >= 1024) {
-        size /= 1024;
-        i++;
-    }
-    return buf;
+static volatile int running = 1;
+
+static void 
+int_handler (int sig) 
+{
+    running = 0;
 }
 
 static char *
 human_readable (double bytes, char *buf)
 {
-    const char *units[] = {"B", "KB", "MB", "GB"};
+    const char *units[] = {"B", "K", "M", "G"};
     int i = 0;
 
     while (bytes >= 1024)
@@ -98,13 +98,6 @@ poll_interfaces (struct state *s, struct stats *stats)
     if (getifaddrs (&ifa0) == -1)
     {
         perror ("getifaddrs");
-
-        if (s->win != NULL)
-        {
-            delwin (s->win);
-            endwin ();
-        }
-
         exit (EXIT_FAILURE);
     }
 
@@ -279,53 +272,43 @@ parse_args (int argc, char *argv[], struct state *s)
 static void
 draw_bar (struct state *state)
 {
-    int i;
+    int i, j;
     size_t indent = strlen (state->ifa_name) + 3;
-    double tot = (double) state->available + state->used, 
+    double tot = state->available + state->used, 
            r   = tot > 0 ? state->available / tot : 0;
     char available_buf[10];
     char used_buf[10];
 
-    wmove (state->win, 1, 2);
-    wprintw (state->win, "%s", state->ifa_name);
+    printf (CSI "1000D");
 
-    wmove (state->win, 1, indent);
-    waddch (state->win, '[');
+    j = WIN_WIDTH * r;
 
-    for (i = 0; i < WIN_WIDTH * r - 1; ++i)
-        waddch (state->win, '=');
+    putchar ('|');
 
-    waddch (state->win, '|');
+    for (i = 0; i < j - 1; ++i)
+        putchar ('=');
 
-    wclrtobot (state->win);
+    for (; i < WIN_WIDTH - 1; ++i)
+        putchar (' ');
 
-    wmove (state->win, 1, indent + WIN_WIDTH + 1);
-    waddch (state->win, ']');
+    putchar ('|');
 
-    wmove (state->win, 3, 2);
+    printf (" %.*f%%", 1, r*100);
+
+    printf (CSI "0K");
+    printf (CSI "1E");
 
     human_readable (state->available, available_buf);
     human_readable (state->used, used_buf);
 
-    wprintw (
-        state->win, "Remaining: %s | Used: %s | Press 'q' to exit", 
+    printf (
+        "Remaining: %s | Used: %s | Press 'Ctrl+C' to exit", 
         available_buf, used_buf
     );
 
-    /*
-    wprintw (
-        state->win, 
-        "Remaining: %d | Used: %d | Press 'q' to exit", 
-        state->available, 
-        state->used
-    );
-    */
+    printf (CSI "1F");
 
-    box (state->win, 0, 0);
-    wmove (state->win, 0, 4);
-    wprintw (state->win, " anwendbar ");
-
-    wrefresh (state->win);
+    fflush (stdout);
 }
 
 int 
@@ -337,25 +320,16 @@ main (int argc, char *argv[])
         0,    /* used */
         0,    /* verbose */
         0,    /* countdown */
-        NULL, /* ifa_name */
-        NULL  /* ncurses WINDOW */
+        NULL  /* ifa_name */
     };
 
     struct stats stats = { 0, 0, NULL };
 
+    signal (SIGINT, int_handler);
+
     parse_args (argc, argv, &state);
 
-    if (NULL == initscr ())
-    {
-        fprintf (stderr, "Error initializing ncurses.\n");
-        exit (EXIT_FAILURE);
-    }
-
-    curs_set (0);
-    noecho ();
-    nodelay (stdscr, 1);
-
-    state.win = newwin (5, 7 + WIN_WIDTH + strlen (state.ifa_name), 0, 0);
+    printf (CSI "?25l");
 
     if (-1 == poll_interfaces (&state, &stats))
     {
@@ -368,13 +342,10 @@ main (int argc, char *argv[])
     if (state.verbose)
         printf ("Using network interface %s.\n", state.ifa_name);
 
-    while ('q' != getch())
+    while (running)
     {
         if (-1 == poll_interfaces (&state, &stats))
         {
-            delwin (state.win);
-            endwin ();
-
             fprintf (stderr, "No such interface: %s", state.ifa_name);
             exit (EXIT_FAILURE);
         } 
@@ -406,8 +377,8 @@ main (int argc, char *argv[])
 
     free (state.ifa_name);
 
-    delwin (state.win);
-    endwin ();
+    printf (CSI "?25h");
+    printf (CSI "2E");
 
     if (state.countdown && !state.available)
         printf ("Data limit exceeded.\n");
