@@ -70,7 +70,6 @@ void stash_parse_args (int argc, char *argv[], struct stash *s)
     struct arg_str *available;
 
     int nerrors;
-
     const char command[] = "stash";
 
     void *argtable[] = 
@@ -147,7 +146,7 @@ void stash_parse_args (int argc, char *argv[], struct stash *s)
             char buf[10];
 
             printf (
-                "Running in countdown mode. Available amount: %s\n", 
+                "Running in countdown mode. Available data: %s\n", 
                 human_readable (s->balance, buf)
             ); 
         }
