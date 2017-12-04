@@ -59,6 +59,17 @@ set_cursor (bool visible)
 int
 main (int argc, char *argv[])
 {
+    struct stash state = {
+        { 0, 0 },
+        { 0, 0 },
+        0,
+        false,
+        false,
+        NULL
+    };
+
+    stash_parse_args (argc, argv, &state);
+
     set_input_mode ();
 
     set_cursor (false);
