@@ -68,6 +68,7 @@ main (int argc, char *argv[])
         0,         /* balance */
         false,     /* verbose */
         false,     /* countdown */
+        false,     /* ascii */
         NULL       /* ifa_name */
     };
 
@@ -91,10 +92,10 @@ main (int argc, char *argv[])
 
     set_input_mode ();
 
-    /*
-    printf (CSI "2J");  
-    printf (CSI "0;0H");  
-    */
+    printf ("\n\n\n\n\n");
+
+    printf (CSI "s");  /* Save cursor */
+    printf (CSI "5F"); /* Move up 5 lines */ 
 
     set_cursor (false);
 
@@ -142,6 +143,8 @@ main (int argc, char *argv[])
 
 exit:
     bar_restore_term ();
+
+    printf (CSI "u"); /* Unsave cursor */
 
     if (0 == status && true == state.countdown && !state.balance)
         printf ("Data limit exceeded.\n");

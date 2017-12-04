@@ -129,7 +129,8 @@ stash_parse_args (int argc, char *argv[], struct stash *s)
 {
     struct arg_lit *verb, 
                    *help, 
-                   *version;
+                   *version,
+                   *ascii;
 
     struct arg_str *iface;
     struct arg_end *end;
@@ -152,6 +153,10 @@ stash_parse_args (int argc, char *argv[], struct stash *s)
             "v", "verbose", 
             0, 1, "verbose output"
         ),
+        ascii = arg_litn (
+            NULL, "ascii", 
+            0, 1, "disable Unicode output"
+        ),
         available = arg_strn (
             "a", "available", "<amount>",
             0, 1, "data available to use in your subscription plan"
@@ -169,8 +174,8 @@ stash_parse_args (int argc, char *argv[], struct stash *s)
     {
         printf ("Usage: %s", command);
         arg_print_syntax (stdout, argtable, "\n");
-        printf ("Track amount of data transferred over a network interface\
-            \against your data plan.\n\n");
+        printf ("Track amount of data transferred over a network interface "
+            "against your data plan.\n\n");
         arg_print_glossary (stdout, argtable, "  %-25s %s\n");
         arg_freetable (argtable, sizeof (argtable) / sizeof (argtable[0]));
         exit (EXIT_SUCCESS);
@@ -204,6 +209,7 @@ stash_parse_args (int argc, char *argv[], struct stash *s)
     }
 
     s->countdown = !!available->count;
+    s->ascii = !!ascii->count;
 
     if (true == s->verbose) 
     {

@@ -17,6 +17,7 @@ struct stash
     uint64_t     balance;     /* Current data balance estimate (in bytes) */
     bool         verbose;     /* Verbose mode flag */
     bool         countdown;   /* Countdown mode flag */
+    bool         ascii;       /* Do not use unicode characters in output */
     char        *ifa_name;    /* Network interface name */
 };
 
