@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../parse_bytes.h"
+#include "../stash.h"
 
 static void
 test_parse_bytes (char *input, uint64_t match)
@@ -12,12 +12,14 @@ test_parse_bytes (char *input, uint64_t match)
         fprintf (stderr, "error: %s\n", input);
         exit (EXIT_FAILURE);
     }
+
     if (result != match)
     {
         fprintf (stderr, "%lu is not \"%s\"\n", match, input);
         exit (EXIT_FAILURE);
     }
 }
+
 int 
 main (int argc, char *argv[])
 {
@@ -57,7 +59,9 @@ main (int argc, char *argv[])
         exit (EXIT_FAILURE);
     }
     
+    printf ("-------------\n");
     printf ("All tests OK!\n");
+    printf ("-------------\n");
 
     return 0;
 }
