@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,7 +17,7 @@ parse_bytes (const char *str, uint64_t *result)
 
     b = strtoull (str, &suffix, 10);
 
-    if (0 == strlen (suffix))
+    if (0 == strlen (suffix) || 0 == strcmp ("B", suffix))
     {
         *result = b;
         return 0;
@@ -63,6 +62,6 @@ parse_bytes (const char *str, uint64_t *result)
         return 0;
     }
 
-    fprintf (stderr, "Unrecognized suffix: %s", suffix);
+    fprintf (stderr, "Unrecognized suffix: %s\n", suffix);
     return -1;
 }
