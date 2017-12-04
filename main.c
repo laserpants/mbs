@@ -1,9 +1,10 @@
-#define _BSD_SOURCE
+#define _BSD_SOURCE 
 
 #include <ifaddrs.h>
 #include <linux/if_link.h>
 #include <net/if.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,15 +14,15 @@
 #include "argtable3.h"
 
 #define WIN_WIDTH 50
-#define CSI "\e["
+#define CSI "\x1B["
 
 struct state 
 {
     uint32_t  snapshot;
     uint64_t  available;
     uint64_t  used;
-    int       verbose;
-    int       countdown;
+    bool      verbose;
+    bool      countdown;
     char     *ifa_name;
 };
 
@@ -31,12 +32,12 @@ struct stats
     uint32_t  tx_bytes;
 };
 
-static volatile int running = 1;
+static volatile int running = true;
 
 static void 
 int_handler (int sig) 
 {
-    running = 0;
+    running = false;
 }
 
 static char *
@@ -190,7 +191,7 @@ parse_args (int argc, char *argv[], struct state *s)
     struct arg_str *available;
 
     int nerrors;
-    const char command[] = "main";
+    const char command[] = "stash";
 
     void *argtable[] = {
         help = arg_litn (
@@ -250,9 +251,9 @@ parse_args (int argc, char *argv[], struct state *s)
     s->available = parse_bytes (*available->sval); 
     s->countdown = !!available->count;
 
-    if (s->verbose) 
+    if (true == s->verbose) 
     {
-        if (s->countdown)
+        if (true == s->countdown)
         {
             char buf[10];
             printf (
@@ -273,7 +274,9 @@ static void
 draw_bar (struct state *state)
 {
     int i, j;
+    /*
     size_t indent = strlen (state->ifa_name) + 3;
+    */
     double tot = state->available + state->used, 
            r   = tot > 0 ? state->available / tot : 0;
     char available_buf[10];
@@ -339,7 +342,7 @@ main (int argc, char *argv[])
 
     state.snapshot = stats.tx_bytes + stats.rx_bytes;
 
-    if (state.verbose)
+    if (true == state.verbose)
         printf ("Using network interface %s.\n", state.ifa_name);
 
     while (running)
