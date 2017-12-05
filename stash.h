@@ -2,6 +2,7 @@
 #define STASH_H
 
 #include <stdint.h>
+#include <ncurses.h>
 
 struct stats 
 {
@@ -20,6 +21,7 @@ struct stash
     uint64_t     balance;        /* Current data balance estimate (in bytes) */
     uint8_t      flags;          /* Bit flags */
     char        *ifa_name;       /* Network interface name */
+    WINDOW      *win;            /* ncurses window */
 };
 
 char *to_human_readable (double bytes, char *buf);
