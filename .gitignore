@@ -2,7 +2,6 @@
 *~
 .dirstamp
 .deps/
-/aclocal.m4
 /compile
 /config.log
 /config.status
