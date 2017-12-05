@@ -2,7 +2,6 @@
 *~
 .dirstamp
 .deps/
-/Makefile.in
 /aclocal.m4
 /compile
 /config.log
