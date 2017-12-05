@@ -45,9 +45,9 @@ get_default_interface (char **ifa_name)
 }
 
 static void
-set_flag (bool set, uint8_t *flags, uint8_t flag)
+set_flag (bool set, uint8_t *flags, uint8_t mask)
 {
-    true == set ? (*flags |= flag) : (*flags &= ~flag);
+    true == set ? (*flags |= mask) : (*flags &= ~mask);
 }
 
 char *
@@ -82,7 +82,7 @@ parse_bytes (const char *str, uint64_t *result)
 
     if (0 == strlen (suffix) || 
         0 == strcmp ("B", suffix) || 
-        0 == strcmp ("b", suffix) )
+        0 == strcmp ("b", suffix))
     {
         *result = b;
         return 0;
