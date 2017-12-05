@@ -5,4 +5,6 @@
 /config.log
 /config.status
 /depcomp
+/install-sh
+/missing
 autom4te.cache/
