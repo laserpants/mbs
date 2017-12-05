@@ -38,8 +38,6 @@ main (int argc, char *argv[])
 
     struct stats stats = { 0, 0 };
 
-    int status = 0;
-
     mbs_getopt (argc, argv, &state);
 
     if (-1 == mbs_poll_interfaces (&state, &stats))
@@ -87,9 +85,15 @@ main (int argc, char *argv[])
 
         if (-1 == mbs_poll_interfaces (&state, &stats))
         {
+            curs_set (1);
+            delwin (state.win);
+            endwin ();
+
             fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
-            status = -1;
-            goto exit;
+
+            free (state.ifa_name);
+
+            return -1;
         } 
         else
         {
@@ -128,17 +132,20 @@ main (int argc, char *argv[])
         select (fileno (stdin) + 1, &s_rd, NULL, NULL, &tv);
     }
 
-exit:
     curs_set (1);
     delwin (state.win);
     endwin ();
 
-    if (0 == status && (state.flags & FLAG_COUNTDOWN) && !state.balance)
+    if ((state.flags & FLAG_COUNTDOWN) && !state.balance)
+    {
         printf ("Data limit exceeded.\n");
-    else if (0 == status)
+    }
+    else 
+    {
         printf ("Terminated!\n");
+    }
 
     free (state.ifa_name);
 
-    return status;
+    return 0;
 }
