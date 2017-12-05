@@ -55,10 +55,18 @@ main (int argc, char *argv[])
         printf ("Monitoring network interface %s.\n", state.ifa_name);
 
     setlocale (LC_ALL, "");
-
     initscr ();
 
-    if (NULL == (state.win = newwin (5, 82, 0, 0)))
+    if (state.flags & FLAG_COUNTDOWN)
+    {
+        state.win = newwin (5, 82, 0, 0);
+    }
+    else
+    {
+        state.win = newwin (3, 82, 0, 0);
+    }
+
+    if (NULL == state.win)
     {
         fprintf (stderr, "Error initialising ncurses.\n");
         endwin ();
@@ -71,10 +79,10 @@ main (int argc, char *argv[])
 
     signal (SIGINT, sig_handler);
 
-    /* Run main loop until SIGINT signal is received. */
+    /* Run main loop until SIGINT signal is received */
     while (true == loop)
     {
-        if ('q' == getch ())
+        if ('q' == getch ()) /* ...or 'q' is pressed */
             break;
 
         if (-1 == mbs_poll_interfaces (&state, &stats))
@@ -101,12 +109,14 @@ main (int argc, char *argv[])
                     state.balance -= diff;
                 else
                     state.balance = 0;
-
-                draw_window (&state, !!tx_diff, !!rx_diff);
-
-                if (!state.balance && (state.flags & FLAG_EXIT_ON_0))
-                    break;
             }
+
+            draw_window (&state, !!tx_diff, !!rx_diff);
+
+            if ((state.flags & FLAG_COUNTDOWN) 
+             && !state.balance 
+             && (state.flags & FLAG_EXIT_ON_0)) 
+                break;
         }
 
         FD_ZERO (&s_rd);
@@ -116,8 +126,6 @@ main (int argc, char *argv[])
         tv.tv_usec = 200000;
 
         select (fileno (stdin) + 1, &s_rd, NULL, NULL, &tv);
-
-        wrefresh (state.win);
     }
 
 exit:

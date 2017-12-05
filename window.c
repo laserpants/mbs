@@ -31,7 +31,14 @@ draw_window (struct mbs *s, bool tx_active, bool rx_active)
 
     /* Interface name */
 
-    wmove (s->win, 1, 18);
+    if (s->flags & FLAG_COUNTDOWN)
+    {
+        wmove (s->win, 1, 18);
+    }
+    else
+    {
+        wmove (s->win, 1, 17);
+    }
 
     wprintw (s->win, "%s", s->ifa_name);
 
@@ -102,7 +109,14 @@ draw_window (struct mbs *s, bool tx_active, bool rx_active)
 
     /* Used */
 
-    wmove (s->win, 2, 2);
+    if (s->flags & FLAG_COUNTDOWN)
+    {
+        wmove (s->win, 2, 2);
+    }
+    else
+    {
+        wmove (s->win, 1, 2);
+    }
 
     wprintw (s->win, "Used: ");
 
@@ -112,32 +126,45 @@ draw_window (struct mbs *s, bool tx_active, bool rx_active)
 
     /* Left */
 
-    wmove (s->win, 3, 2);
+    if (s->flags & FLAG_COUNTDOWN)
+    {
+        wmove (s->win, 3, 2);
 
-    wprintw (s->win, "Left: ");
+        wprintw (s->win, "Left: ");
 
-    wattron (s->win, A_BOLD);
-    wprintw (s->win, "%s", available_str);
-    wattroff (s->win, A_BOLD);
+        if (r > 0 || (s->flags & FLAG_EXIT_ON_0))
+        {
+            wattron (s->win, A_BOLD);
+            wprintw (s->win, "%s", available_str);
+            wattroff (s->win, A_BOLD);
+        }
+        else
+        {
+            wprintw (s->win, "-");
+        }
+    }
 
     /* Bar */
 
-    wmove (s->win, 3, 18);
+    if (s->flags & FLAG_COUNTDOWN)
+    {
+        wmove (s->win, 3, 18);
 
-    if (s->flags & FLAG_ASCII)
-    {
-        wprintw (s->win, "[");
-        for (i = 0; i < 61 * r - 1; ++i)
-            wprintw (s->win, "=");
-        wmove (s->win, 3, 79);
-        wprintw (s->win, "]");
-    }
-    else
-    {
-        for (i = 0; i < 63 * r - 1; ++i)
-            wprintw (s->win, "\u2588");
-        for (; i < 63 - 1; ++i)
-            wprintw (s->win, "\u2591");
+        if (s->flags & FLAG_ASCII)
+        {
+            wprintw (s->win, "[");
+            for (i = 0; i < 61 * r - 1; ++i)
+                wprintw (s->win, "=");
+            wmove (s->win, 3, 79);
+            wprintw (s->win, "]");
+        }
+        else
+        {
+            for (i = 0; i < 63 * r - 1; ++i)
+                wprintw (s->win, "\u2588");
+            for (; i < 63 - 1; ++i)
+                wprintw (s->win, "\u2591");
+        }
     }
 
     /* Refresh */
