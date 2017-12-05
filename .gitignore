@@ -8,3 +8,5 @@
 /install-sh
 /missing
 autom4te.cache/
+*.o
+*~
