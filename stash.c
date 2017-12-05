@@ -47,10 +47,7 @@ get_default_interface (char **ifa_name)
 static void
 set_flag (bool set, uint8_t *flags, uint8_t flag)
 {
-    if (true == set)
-        *flags |= flag;
-    else
-        *flags &= ~flag;
+    true == set ? (*flags |= flag) : (*flags &= ~flag);
 }
 
 char *
