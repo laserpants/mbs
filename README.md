@@ -1,5 +1,5 @@
 # mbs
 
 A simple command line tool to keep track over the "em-bees" sent and received 
-over a network interface. Useful to measure your data usage against pre-paid 
-data bundles or a fixed usage limit.
+over a network interface. Useful to monitor your data usage against a pre-paid 
+data bundle or a fixed usage limit.
