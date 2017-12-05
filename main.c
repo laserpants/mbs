@@ -66,9 +66,7 @@ main (int argc, char *argv[])
         { 0, 0 },  /* snapshot */
         { 0, 0 },  /* used */
         0,         /* balance */
-        false,     /* verbose */
-        false,     /* countdown */
-        false,     /* ascii */
+        0,         /* flags */
         NULL       /* ifa_name */
     };
 
@@ -87,7 +85,7 @@ main (int argc, char *argv[])
 
     state.snapshot = stats;
 
-    if (true == state.verbose)
+    if (state.flags & FLAG_VERBOSE)
         printf ("Monitoring network interface %s.\n", state.ifa_name);
 
     set_input_mode ();
@@ -124,21 +122,21 @@ main (int argc, char *argv[])
 
             const uint64_t diff = tx_diff + rx_diff;
 
-            if (true == state.countdown)
+            if (state.flags & FLAG_COUNTDOWN)
             {
                 if (state.balance > diff)
                     state.balance -= diff;
                 else
                     state.balance = 0;
 
-                bar_render (&state);
+                bar_render (&state, !!tx_diff, !!rx_diff);
 
                 if (!state.balance)
                     break;
             }
         }
 
-        usleep (40000);
+        usleep (200000);
     }
 
 exit:
@@ -146,7 +144,7 @@ exit:
 
     printf (CSI "u"); /* Unsave cursor */
 
-    if (0 == status && true == state.countdown && !state.balance)
+    if (0 == status && (state.flags & FLAG_COUNTDOWN) && !state.balance)
         printf ("Data limit exceeded.\n");
     else if (0 == status)
         printf ("Terminated!\n");

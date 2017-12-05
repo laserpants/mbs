@@ -3,6 +3,7 @@
 #include <ifaddrs.h>
 #include <linux/if_link.h>
 #include <net/if.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include "argtable3/argtable3.h"
@@ -41,6 +42,15 @@ get_default_interface (char **ifa_name)
 
     freeifaddrs (ifa0);
     return -1;
+}
+
+static void
+set_flag (bool set, uint8_t *flags, uint8_t flag)
+{
+    if (true == set)
+        *flags |= flag;
+    else
+        *flags &= ~flag;
 }
 
 char *
@@ -200,20 +210,19 @@ stash_parse_args (int argc, char *argv[], struct stash *s)
         exit (EXIT_FAILURE);
     }
 
-    s->verbose = !!verb->count;
-
     if (-1 == parse_bytes (*available->sval, &s->balance)) 
     {
         arg_freetable (argtable, sizeof (argtable) / sizeof (argtable[0]));
         exit (EXIT_FAILURE);
     }
 
-    s->countdown = !!available->count;
-    s->ascii = !!ascii->count;
+    set_flag (!!verb->count, &s->flags, FLAG_VERBOSE);
+    set_flag (!!available->count, &s->flags, FLAG_COUNTDOWN);
+    set_flag (!!ascii->count, &s->flags, FLAG_ASCII);
 
-    if (true == s->verbose) 
+    if (s->flags & FLAG_VERBOSE) 
     {
-        if (true == s->countdown)
+        if (s->flags & FLAG_COUNTDOWN)
         {
             char buf[10];
 
