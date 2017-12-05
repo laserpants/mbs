@@ -56,8 +56,6 @@ bar_render (struct stash *s, bool tx, bool rx)
     
     printf (CSI "18G"); /* Set column */
 
-    if (!(s->flags & FLAG_ASCII))
-        printf ("\u2605 ");
     printf ("\033[1m%s\033[22m", s->ifa_name);
 
     printf (CSI "34G"); /* Set column */

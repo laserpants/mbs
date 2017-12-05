@@ -45,7 +45,7 @@ get_default_interface (char **ifa_name)
 }
 
 static void
-set_flag (bool set, uint8_t *flags, uint8_t mask)
+set_flag (uint8_t *flags, bool set, uint8_t mask)
 {
     true == set ? (*flags |= mask) : (*flags &= ~mask);
 }
@@ -213,9 +213,9 @@ stash_getopt (int argc, char *argv[], struct stash *s)
         exit (EXIT_FAILURE);
     }
 
-    set_flag (!!verb->count, &s->flags, FLAG_VERBOSE);
-    set_flag (!!available->count, &s->flags, FLAG_COUNTDOWN);
-    set_flag (!!ascii->count, &s->flags, FLAG_ASCII);
+    set_flag (&s->flags, !!verb->count, FLAG_VERBOSE);
+    set_flag (&s->flags, !!available->count, FLAG_COUNTDOWN);
+    set_flag (&s->flags, !!ascii->count, FLAG_ASCII);
 
     if (s->flags & FLAG_VERBOSE) 
     {
