@@ -1,9 +1,9 @@
 #include <ncurses.h>
-#include "megs.h"
+#include "mbs.h"
 #include "window.h"
 
 void 
-draw_window (struct megs *s, bool tx_active, bool rx_active)
+draw_window (struct mbs *s, bool tx_active, bool rx_active)
 {
     int i;
     double tot = s->balance + s->used.tx_bytes + s->used.rx_bytes, 
@@ -23,10 +23,10 @@ draw_window (struct megs *s, bool tx_active, bool rx_active)
 
     box (s->win, 0, 0);
 
-    wmove (s->win, 0, 4);
+    wmove (s->win, 0, 2);
 
     wattron (s->win, A_BOLD);
-    wprintw (s->win, " megs ");
+    wprintw (s->win, " mbs ");
     wattroff (s->win, A_BOLD);
 
     /* Interface name */
@@ -37,7 +37,7 @@ draw_window (struct megs *s, bool tx_active, bool rx_active)
 
     /* TX */
 
-    wmove (s->win, 1, 34);
+    wmove (s->win, 1, 31);
 
     if (true == tx_active)
     {
@@ -67,7 +67,7 @@ draw_window (struct megs *s, bool tx_active, bool rx_active)
 
     /* RX */
 
-    wmove (s->win, 1, 50);
+    wmove (s->win, 1, 47);
 
     if (true == rx_active)
     {
@@ -94,6 +94,11 @@ draw_window (struct megs *s, bool tx_active, bool rx_active)
     wattron (s->win, A_BOLD);
     wprintw (s->win, "%s", used_rx_str);
     wattroff (s->win, A_BOLD);
+
+    /* Exit */
+
+    wmove (s->win, 1, 66);
+    wprintw (s->win, "Ctrl-C to exit");
 
     /* Used */
 
@@ -129,11 +134,10 @@ draw_window (struct megs *s, bool tx_active, bool rx_active)
     }
     else
     {
-        wprintw (s->win, "[");
-        for (i = 0; i < 61 * r - 1; ++i)
-            wprintw (s->win, "=");
-        wmove (s->win, 3, 79);
-        wprintw (s->win, "]");
+        for (i = 0; i < 63 * r - 1; ++i)
+            wprintw (s->win, "\u2588");
+        for (; i < 63 - 1; ++i)
+            wprintw (s->win, "\u2591");
     }
 
     /* Refresh */

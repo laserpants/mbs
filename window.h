@@ -3,6 +3,6 @@
 
 #include <stdbool.h>
 
-void draw_window (struct megs *s, bool tx_active, bool rx_active);
+void draw_window (struct mbs *s, bool tx_active, bool rx_active);
 
 #endif

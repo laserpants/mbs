@@ -1,5 +1,5 @@
-#ifndef STASH_H
-#define STASH_H
+#ifndef MBS_H
+#define MBS_H
 
 #include <stdint.h>
 #include <ncurses.h>
@@ -14,7 +14,7 @@ struct stats
 #define FLAG_COUNTDOWN (1 << 1)  /* 00000010 */
 #define FLAG_ASCII     (1 << 2)  /* 00000100 */
 
-struct megs
+struct mbs
 {
     struct stats snapshot;       /* Last TX RX value pair read */
     struct stats used;           /* Data used since the command was launched */
@@ -26,7 +26,7 @@ struct megs
 
 char *to_human_readable (double bytes, char *buf);
 int parse_bytes (const char *str, uint64_t *result);
-void megs_getopt (int argc, char *argv[], struct megs *s);
-int megs_poll_interfaces (struct megs *s, struct stats *stats);
+void mbs_getopt (int argc, char *argv[], struct mbs *s);
+int mbs_poll_interfaces (struct mbs *s, struct stats *stats);
 
 #endif 

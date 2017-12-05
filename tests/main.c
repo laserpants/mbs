@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../megs.h"
+#include "../mbs.h"
 
 static void
 test_parse_bytes (char *input, uint64_t match)
