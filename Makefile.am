@@ -1,5 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 bin_PROGRAMS = mbs
+AM_LDFLAGS = -lncursesw
 mbs_SOURCES = main.c \
 		mbs.h \
 		mbs.c \
@@ -7,5 +8,4 @@ mbs_SOURCES = main.c \
 		window.c \
 		argtable3/argtable3.h \
 		argtable3/argtable3.c
-AM_LDFLAGS = -lncursesw
 mbs_LDADD = $(NCURSESW_LIBS)
