@@ -137,7 +137,8 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
     struct arg_lit *verb, 
                    *help, 
                    *version,
-                   *ascii;
+                   *ascii,
+                   *keep_running;
 
     struct arg_str *iface;
     struct arg_end *end;
@@ -163,6 +164,10 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
         ascii = arg_litn (
             NULL, "ascii", 
             0, 1, "disable Unicode output"
+        ),
+        keep_running = arg_litn (
+            "k", "keep-running", 
+            0, 1, "don't exit when zero bytes remaining"
         ),
         available = arg_strn (
             "a", "available", "<amount>",
@@ -216,6 +221,7 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
     set_flag (&s->flags, !!verb->count, FLAG_VERBOSE);
     set_flag (&s->flags, !!available->count, FLAG_COUNTDOWN);
     set_flag (&s->flags, !!ascii->count, FLAG_ASCII);
+    set_flag (&s->flags, !keep_running->count, FLAG_EXIT_ON_0);
 
     if (s->flags & FLAG_VERBOSE) 
     {

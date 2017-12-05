@@ -96,7 +96,7 @@ main (int argc, char *argv[])
 
                 draw_window (&state, !!tx_diff, !!rx_diff);
 
-                if (!state.balance)
+                if (!state.balance && (state.flags & FLAG_EXIT_ON_0))
                     break;
             }
         }

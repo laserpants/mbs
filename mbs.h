@@ -13,6 +13,7 @@ struct stats
 #define FLAG_VERBOSE   (1 << 0)  /* 00000001 */
 #define FLAG_COUNTDOWN (1 << 1)  /* 00000010 */
 #define FLAG_ASCII     (1 << 2)  /* 00000100 */
+#define FLAG_EXIT_ON_0 (1 << 3)  /* 00001000 */
 
 struct mbs
 {
