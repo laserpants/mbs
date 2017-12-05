@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "argtable3/argtable3.h"
-#include "stash.h"
+#include "megs.h"
 
 static int
 get_default_interface (char **ifa_name)
@@ -132,7 +132,7 @@ parse_bytes (const char *str, uint64_t *result)
 }
 
 void 
-stash_getopt (int argc, char *argv[], struct stash *s)
+megs_getopt (int argc, char *argv[], struct megs *s)
 {
     struct arg_lit *verb, 
                    *help, 
@@ -144,7 +144,7 @@ stash_getopt (int argc, char *argv[], struct stash *s)
     struct arg_str *available;
 
     int nerrors;
-    const char command[] = "stash";
+    const char command[] = "megs";
 
     void *argtable[] = 
     {
@@ -238,7 +238,7 @@ stash_getopt (int argc, char *argv[], struct stash *s)
 }
 
 int 
-stash_poll_interfaces (struct stash *s, struct stats *stats)
+megs_poll_interfaces (struct megs *s, struct stats *stats)
 {
     struct ifaddrs *ifa0, *ifa;
 

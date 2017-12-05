@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../stash.h"
+#include "../megs.h"
 
 static void
 test_parse_bytes (char *input, uint64_t match)

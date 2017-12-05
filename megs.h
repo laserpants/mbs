@@ -14,7 +14,7 @@ struct stats
 #define FLAG_COUNTDOWN (1 << 1)  /* 00000010 */
 #define FLAG_ASCII     (1 << 2)  /* 00000100 */
 
-struct stash
+struct megs
 {
     struct stats snapshot;       /* Last TX RX value pair read */
     struct stats used;           /* Data used since the command was launched */
@@ -26,7 +26,7 @@ struct stash
 
 char *to_human_readable (double bytes, char *buf);
 int parse_bytes (const char *str, uint64_t *result);
-void stash_getopt (int argc, char *argv[], struct stash *s);
-int stash_poll_interfaces (struct stash *s, struct stats *stats);
+void megs_getopt (int argc, char *argv[], struct megs *s);
+int megs_poll_interfaces (struct megs *s, struct stats *stats);
 
 #endif 

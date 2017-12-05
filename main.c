@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "stash.h"
+#include "megs.h"
 #include "window.h"
 
 static volatile bool loop = true;
@@ -24,7 +24,7 @@ sig_handler (int signo)
 int
 main (int argc, char *argv[])
 {
-    struct stash state = {
+    struct megs state = {
         { 0, 0 },  /* snapshot */
         { 0, 0 },  /* used */
         0,         /* balance */
@@ -37,9 +37,9 @@ main (int argc, char *argv[])
 
     int status = 0;
 
-    stash_getopt (argc, argv, &state);
+    megs_getopt (argc, argv, &state);
 
-    if (-1 == stash_poll_interfaces (&state, &stats))
+    if (-1 == megs_poll_interfaces (&state, &stats))
     {
         fprintf (stderr, "No such interface: %s\n", state.ifa_name);
         free (state.ifa_name);
@@ -69,7 +69,7 @@ main (int argc, char *argv[])
     /* Run main loop until SIGINT signal is received. */
     while (true == loop)
     {
-        if (-1 == stash_poll_interfaces (&state, &stats))
+        if (-1 == megs_poll_interfaces (&state, &stats))
         {
             fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
             status = -1;
