@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-/* #include "bar.h" */
+#include <ncurses.h>
 #include "stash.h"
+#include "window.h"
 
 static volatile bool loop = true;
 
@@ -27,7 +28,8 @@ main (int argc, char *argv[])
         { 0, 0 },  /* used */
         0,         /* balance */
         0,         /* flags */
-        NULL       /* ifa_name */
+        NULL,      /* ifa_name */
+        NULL       /* WINDOW */
     };
 
     struct stats stats = { 0, 0 };
@@ -48,9 +50,16 @@ main (int argc, char *argv[])
     if (state.flags & FLAG_VERBOSE)
         printf ("Monitoring network interface %s.\n", state.ifa_name);
 
-    signal (SIGINT, sig_handler);
+    initscr ();
 
-    /* bar_draw_box (); */
+    if (NULL == (state.win = newwin (5, 90, 0, 0)))
+    {
+        fprintf (stderr, "Error initialising ncurses.\n");
+        free (state.ifa_name);
+        return EXIT_FAILURE;
+    }
+
+    signal (SIGINT, sig_handler);
 
     /* Run main loop until SIGINT signal is received. */
     while (true == loop)
@@ -80,7 +89,7 @@ main (int argc, char *argv[])
                 else
                     state.balance = 0;
 
-                /* bar_render (&state, !!tx_diff, !!rx_diff); */
+                draw_window (&state, !!tx_diff, !!rx_diff);
 
                 if (!state.balance)
                     break;
@@ -91,6 +100,9 @@ main (int argc, char *argv[])
     }
 
 exit:
+    delwin (state.win);
+    endwin ();
+
     if (0 == status && (state.flags & FLAG_COUNTDOWN) && !state.balance)
         printf ("Data limit exceeded.\n");
     else if (0 == status)
