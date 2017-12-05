@@ -97,8 +97,8 @@ draw_window (struct mbs *s, bool tx_active, bool rx_active)
 
     /* Exit */
 
-    wmove (s->win, 1, 66);
-    wprintw (s->win, "Ctrl-C to exit");
+    wmove (s->win, 1, 63);
+    wprintw (s->win, "Press 'q' to exit");
 
     /* Used */
 

@@ -24,6 +24,9 @@ sig_handler (int signo)
 int
 main (int argc, char *argv[])
 {
+    struct timeval tv;
+    fd_set s_rd;
+
     struct mbs state = {
         { 0, 0 },  /* snapshot */
         { 0, 0 },  /* used */
@@ -64,11 +67,16 @@ main (int argc, char *argv[])
     }
 
     curs_set (0);
+    timeout (0);  /* This is so that getch doesn't block. */
+
     signal (SIGINT, sig_handler);
 
     /* Run main loop until SIGINT signal is received. */
     while (true == loop)
     {
+        if ('q' == getch ())
+            break;
+
         if (-1 == mbs_poll_interfaces (&state, &stats))
         {
             fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
@@ -101,7 +109,15 @@ main (int argc, char *argv[])
             }
         }
 
-        usleep (200000);
+        FD_ZERO (&s_rd);
+        FD_SET (fileno (stdin), &s_rd); 
+
+        tv.tv_sec = 0;
+        tv.tv_usec = 200000;
+
+        select (fileno (stdin) + 1, &s_rd, NULL, NULL, &tv);
+
+        wrefresh (state.win);
     }
 
 exit:
