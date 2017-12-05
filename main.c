@@ -1,11 +1,12 @@
 #define _BSD_SOURCE 
 
+#include <locale.h>
+#include <ncurses.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <ncurses.h>
 #include "stash.h"
 #include "window.h"
 
@@ -50,15 +51,19 @@ main (int argc, char *argv[])
     if (state.flags & FLAG_VERBOSE)
         printf ("Monitoring network interface %s.\n", state.ifa_name);
 
+    setlocale (LC_ALL, "");
+
     initscr ();
 
     if (NULL == (state.win = newwin (5, 90, 0, 0)))
     {
         fprintf (stderr, "Error initialising ncurses.\n");
+        endwin ();
         free (state.ifa_name);
         return EXIT_FAILURE;
     }
 
+    curs_set (0);
     signal (SIGINT, sig_handler);
 
     /* Run main loop until SIGINT signal is received. */
@@ -100,6 +105,7 @@ main (int argc, char *argv[])
     }
 
 exit:
+    curs_set (1);
     delwin (state.win);
     endwin ();
 
