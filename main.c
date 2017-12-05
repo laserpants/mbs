@@ -74,7 +74,7 @@ main (int argc, char *argv[])
 
     int status = 0;
 
-    stash_parse_args (argc, argv, &state);
+    stash_getopt (argc, argv, &state);
 
     if (-1 == stash_poll_interfaces (&state, &stats))
     {

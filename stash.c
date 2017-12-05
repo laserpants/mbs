@@ -132,7 +132,7 @@ parse_bytes (const char *str, uint64_t *result)
 }
 
 void 
-stash_parse_args (int argc, char *argv[], struct stash *s)
+stash_getopt (int argc, char *argv[], struct stash *s)
 {
     struct arg_lit *verb, 
                    *help, 
