@@ -371,8 +371,8 @@ TEST_LOGS = $(am__test_logs2:.test.log=.log)
 TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
-am__DIST_COMMON = $(srcdir)/Makefile.in compile depcomp install-sh \
-	missing test-driver
+am__DIST_COMMON = $(srcdir)/Makefile.in COPYING INSTALL compile \
+	depcomp install-sh missing test-driver
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
