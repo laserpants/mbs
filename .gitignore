@@ -1,0 +1,5 @@
+/Makefile.in
+/config.log
+/config.status
+/depcomp
+.deps/
