@@ -193,6 +193,14 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
         exit (EXIT_SUCCESS);
     }
 
+    if (version->count > 0)
+    {
+        printf ("mbs version 0.1\n");
+        printf ("https://github.com/laserpants/mbs\n");
+        arg_freetable (argtable, sizeof (argtable) / sizeof (argtable[0]));
+        exit (EXIT_SUCCESS);
+    }
+
     if (nerrors > 0)
     {
         arg_print_errors (stdout, end, command);
