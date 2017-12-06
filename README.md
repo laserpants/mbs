@@ -53,7 +53,7 @@ mbs -a 10K --keep-running
 | `--version`      |                | Display version info and exit.          |   
 | `--verbose`      | `-v`           | Render verbose output.                  |   
 | `--ascii`        |                | Disable Unicode characters.             |   
-| `--keep-running` | `-k`           | Do not exit when data limit exceeded or connection is lost.          |   
+| `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost.       |   
 | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
 
 The `--available` argument accepts the following suffixes:
