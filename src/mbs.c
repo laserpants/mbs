@@ -167,7 +167,7 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
         ),
         keep_running = arg_litn (
             "k", "keep-running", 
-            0, 1, "don't exit when zero bytes remaining"
+            0, 1, "don't exit when data limit exceeded or connection is lost"
         ),
         available = arg_strn (
             "a", "available", "<amount>",
