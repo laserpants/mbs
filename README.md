@@ -45,7 +45,7 @@ connection is lost. Use the `--keep-running` flag to modify this behavior.
 mbs -a 10K --keep-running
 ```
 
-#### Flags
+### Flags
 
 | Flag             | Short option   | Description                             |
 |------------------|----------------|-----------------------------------------|
