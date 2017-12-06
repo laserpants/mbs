@@ -12,7 +12,8 @@ make
 make install
 ```
 
-where, normally, the last command is invoked as `sudo make install`, since it requires root privileges. 
+where, normally, the last command is invoked as `sudo make install`, since it 
+requires root privileges. 
 
 ### Usage
 
