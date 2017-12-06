@@ -85,15 +85,35 @@ main (int argc, char *argv[])
 
         if (-1 == mbs_poll_interfaces (&state, &stats))
         {
-            curs_set (1);
-            delwin (state.win);
-            endwin ();
+            if (state.flags & FLAG_NO_EXIT)
+            {
+                state.snapshot.rx_bytes = 0;
+                state.snapshot.tx_bytes = 0;
 
-            fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
+                werase (state.win);
 
-            free (state.ifa_name);
+                box (state.win, 0, 0);
+                wmove (state.win, 0, 2);
+                wattron (state.win, A_BOLD);
+                wprintw (state.win, " mbs ");
+                wattroff (state.win, A_BOLD);
 
-            return -1;
+                wmove (state.win, 2, 2);
+                wprintw (state.win, "Interface %s is gone.", state.ifa_name);
+                wrefresh (state.win);
+            }
+            else
+            {
+                curs_set (1);
+                delwin (state.win);
+                endwin ();
+
+                fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
+
+                free (state.ifa_name);
+
+                return -1;
+            }
         } 
         else
         {
@@ -119,7 +139,7 @@ main (int argc, char *argv[])
 
             if ((state.flags & FLAG_COUNTDOWN) 
              && !state.balance 
-             && (state.flags & FLAG_EXIT_ON_0)) 
+             && !(state.flags & FLAG_NO_EXIT)) 
                 break;
         }
 

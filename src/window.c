@@ -1,5 +1,4 @@
 #include <ncurses.h>
-#include "mbs.h"
 #include "window.h"
 
 void 
@@ -132,7 +131,7 @@ draw_window (struct mbs *s, bool tx_active, bool rx_active)
 
         wprintw (s->win, "Left: ");
 
-        if (r > 0 || (s->flags & FLAG_EXIT_ON_0))
+        if (r > 0 || !(s->flags & FLAG_NO_EXIT))
         {
             wattron (s->win, A_BOLD);
             wprintw (s->win, "%s", available_str);

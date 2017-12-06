@@ -228,7 +228,7 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
     set_flag (&s->flags, !!verb->count, FLAG_VERBOSE);
     set_flag (&s->flags, !!available->count, FLAG_COUNTDOWN);
     set_flag (&s->flags, !!ascii->count, FLAG_ASCII);
-    set_flag (&s->flags, !keep_running->count, FLAG_EXIT_ON_0);
+    set_flag (&s->flags, !!keep_running->count, FLAG_NO_EXIT);
 
     if (s->flags & FLAG_VERBOSE) 
     {
