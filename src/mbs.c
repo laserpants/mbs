@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "argtable3/argtable3.h"
+#include "argtable3.h"
 #include "mbs.h"
 
 static int
