@@ -30,10 +30,10 @@ running network interface (excluding `lo`).
 
 Specify the amount of data available using the `--available` (`-a`) flag to run
 the command in countdown mode. The following command specifies a data limit of
-100 Mb.
+300 KB.
 
 ```
-mbs -a 100M
+mbs -a 300K
 ```
 
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
