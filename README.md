@@ -18,11 +18,26 @@ requires root privileges.
 ### Usage
 
 ```
+mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
+```
+
+#### Examples
+
+Specify the amount of data available using the `--available` (`-a`) flag to run
+the command in countdown mode. 
+
+```
 mbs -a 100M
 ```
 
 #### Flags
 
-| Flag      | | Description |
-|-----------|-|-------------|
-| --version | |             |   
+| Flag           | Short option | Description                             |
+|----------------|--------------|-----------------------------------------|
+| --help         |              | Display help and exit.                  |   
+| --version      |              | Display version info and exit.          |   
+| --verbose      | -v           | Verbose output                          |   
+| --ascii        |              | Do not use Unicode characters in output |   
+| --keep-running | -k           | Do not exit when data limit exceeded or connection is lost |   
+| --available    | -a           | Data available to use in your subscription plan or budget  |   
+
