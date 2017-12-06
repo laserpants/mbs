@@ -23,8 +23,8 @@ where `make install` usually requires root privileges and is invoked with
 mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
 ```
 
-If no `<interface>` is given, the program will try to automatically find a 
-running network interface (excluding `lo`).
+If no `<interface>` is given, the program will try to automatically find an 
+active network interface (excluding `lo`).
 
 #### Examples
 
