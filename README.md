@@ -2,7 +2,7 @@
 
 A simple command line tool to keep track of the amount of data sent and 
 received over a network interface. This can be is useful for monitoring 
-data usage against a pre-paid data bundle or some fixed usage limit.
+data usage against a pre-paid data bundle or some other fixed usage limit.
 
 ### Building
 
