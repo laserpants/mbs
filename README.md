@@ -1,12 +1,12 @@
 # mbs [![Build Status](https://img.shields.io/travis/laserpants/mbs/master.svg?style=flat)](https://travis-ci.org/laserpants/mbs)
 
 A simple command line tool to keep track of the amount of data sent and 
-received over a network interface. `mbs` is useful for monitoring data usage 
-against a pre-paid data bundle or some fixed usage limit.
+received over a network interface. This can be is useful for monitoring 
+data usage against a pre-paid data bundle or some fixed usage limit.
 
 ### Building
 
-To build the executable, run
+To build the executable and tests, run
 
 ```bash
 ./configure
@@ -14,8 +14,8 @@ make
 make install
 ```
 
-where `make install` usually requires root privileges and is invoked with 
-`sudo`. 
+where `make install` requires root privileges and is usually invoked 
+with `sudo`. 
 
 ### Usage
 
@@ -38,7 +38,7 @@ mbs -a 300K
 
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
 
-By default, the command will exit once the data limit is reached, or if the
+By default, the command will exit once this limit is reached, or if the
 connection is lost. Use the `--keep-running` flag to modify this behavior.
 
 ```
