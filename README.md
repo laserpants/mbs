@@ -1,7 +1,7 @@
 # mbs [![Build Status](https://img.shields.io/travis/laserpants/mbs/master.svg?style=flat)](https://travis-ci.org/laserpants/mbs)
 
 A simple command line tool to keep track of the amount of data sent and 
-received over a network interface. This can be is useful for monitoring 
+received over a network interface. This can be convenient for monitoring 
 data usage against a pre-paid data bundle or some other fixed usage limit.
 
 ### Building
