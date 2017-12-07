@@ -23,17 +23,17 @@ where `make install` usually requires root privileges and is invoked with
 mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
 ```
 
-If no `<interface>` is given, the program will try to automatically find a 
-running network interface (excluding `lo`).
+If no `<interface>` is given, the program will try to automatically find an 
+active network interface (excluding `lo`).
 
 #### Examples
 
 Specify the amount of data available using the `--available` (`-a`) flag to run
-the command in countdown mode. The following command specifies a data limit of
-100 Mb.
+the command in countdown mode. The following example specifies a data limit of
+300 KB.
 
 ```
-mbs -a 100M
+mbs -a 300K
 ```
 
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
@@ -45,7 +45,7 @@ connection is lost. Use the `--keep-running` flag to modify this behavior.
 mbs -a 10K --keep-running
 ```
 
-#### Flags
+### Flags
 
 | Flag             | Short option   | Description                             |
 |------------------|----------------|-----------------------------------------|
@@ -53,7 +53,7 @@ mbs -a 10K --keep-running
 | `--version`      |                | Display version info and exit.          |   
 | `--verbose`      | `-v`           | Render verbose output.                  |   
 | `--ascii`        |                | Disable Unicode characters.             |   
-| `--keep-running` | `-k`           | Do not exit when data limit exceeded or connection is lost.          |   
+| `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost.       |   
 | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
 
 The `--available` argument accepts the following suffixes:
