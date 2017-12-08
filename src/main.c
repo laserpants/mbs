@@ -30,6 +30,22 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * @mainpage Main page
+ *
+ * @section Intro
+ */
+
+/**
+ * @file main.c
+ * @brief File containing example of doxygen usage for quick reference.
+ *
+ * Here typically goes a more extensive explanation of what the header
+ * defines. 
+ *
+ * @author Johannes Hildén <hildenjohannes@gmail.com>
+ */
 #define _BSD_SOURCE 
 
 #include <locale.h>

@@ -30,12 +30,25 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * @file windows.h
+ * @brief File containing example of doxygen usage for quick reference.
+ *
+ * Here typically goes a more extensive explanation of what the header
+ * defines. 
+ *
+ * @author Johannes Hildén <hildenjohannes@gmail.com>
+ */
 #ifndef WINDOW_H
 #define WINDOW_H
 
 #include <stdbool.h>
 #include "mbs.h"
 
+/**
+ * @brief Example showing how to document a function with Doxygen.
+ */
 void draw_window (struct mbs *s, bool tx_active, bool rx_active);
 
 #endif
