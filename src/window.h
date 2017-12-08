@@ -32,7 +32,7 @@
  */
 
 /**
- * @file windows.h
+ * @file window.h
  * @brief File containing example of doxygen usage for quick reference.
  *
  * Here typically goes a more extensive explanation of what the header
@@ -47,7 +47,15 @@
 #include "mbs.h"
 
 /**
- * @brief Example showing how to document a function with Doxygen.
+ * @brief Render output using the ncurses library.
+ *
+ * @param  s         An \ref mbs struct holding application state and 
+ *                   configuration settings.
+ * @param  tx_active A boolean to indicate whether any data was transmitted 
+ *                   since last snapshot.
+ * @param  rx_active A boolean to indicate whether any data was received since 
+ *                   last snapshot.
+ * @return Nothing
  */
 void draw_window (struct mbs *s, bool tx_active, bool rx_active);
 

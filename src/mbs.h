@@ -65,31 +65,32 @@ struct stats
 /**
  * @brief Example showing how to document a function with Doxygen.
  */
-enum 
+enum cmd_flags
 {
     /**
-     * @brief Example showing how to document a function with Doxygen.
+     * If this flag is set, verbose output is enabled.
      */
-    FLAG_VERBOSE   = 1 << 0,
+    FLAG_VERBOSE = 1 << 0,
 
     /**
-     * @brief Example showing how to document a function with Doxygen.
+     * Run in countdown mode?
      */
     FLAG_COUNTDOWN = 1 << 1,
 
     /**
-     * @brief Example showing how to document a function with Doxygen.
+     * Setting this flag disables non-ascii Unicode characters in output.
      */
-    FLAG_ASCII     = 1 << 2,
+    FLAG_ASCII = 1 << 2,
 
     /**
-     * @brief Example showing how to document a function with Doxygen.
+     * Do not exit when data limit is exceeded or connection is lost.
      */
-    FLAG_NO_EXIT   = 1 << 3  
+    FLAG_NO_EXIT = 1 << 3  
 };
 
 /**
- * @brief Example showing how to document a function with Doxygen.
+ * @brief A struct encapsulating various application state and configuration
+ *        settings.
  */
 struct mbs
 {
@@ -110,6 +111,8 @@ struct mbs
 
     /**
      * @brief Bit flags 
+     *
+     * @see cmd_flags
      */
     uint8_t flags;          
 
@@ -153,8 +156,9 @@ int parse_bytes (const char *str, uint64_t *result);
  *
  * @param  argc Argument one
  * @param  argv Argument two
- * @param  s Argument three
- * @return void 
+ * @param  s An \ref mbs struct holding application state and configuration
+ *         settings.
+ * @return Nothing
  */
 void mbs_getopt (int argc, char *argv[], struct mbs *s);
 
@@ -163,7 +167,8 @@ void mbs_getopt (int argc, char *argv[], struct mbs *s);
  *
  * Description
  *
- * @param  s This is an argument.
+ * @param  s An \ref mbs struct holding application state and configuration
+ *         settings.
  * @param  stats This is an argument.
  * @return something
  */

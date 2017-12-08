@@ -32,9 +32,21 @@
  */
 
 /**
- * @mainpage Main page
+ * @mainpage Welcome!
  *
- * @section Intro
+ * Mbs is a command line tool to keep track of the amount of data sent and 
+ * received over a network interface. It can be handy for monitoring data usage 
+ * against a pre-paid data bundle or some other fixed usage limit.
+ *
+ * @section Building
+ *
+ * Instructions for building the command.
+ *
+ * @code
+ * ./configure
+ * make
+ * make install
+ * @endcode
  */
 
 /**
