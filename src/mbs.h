@@ -48,7 +48,7 @@
 #include <ncurses.h>
 
 /**
- * @brief A rx-tx pair which represents the amount of data received and 
+ * @brief An rx-tx pair which represents the amount of data received and 
  *        transmitted over a network interface.
  */
 struct stats 
@@ -100,6 +100,9 @@ enum cmd_flags
  *        methods, we allocate `mbs` on the stack in \ref main, and pass it 
  *        explicitly, as an argument, to the various functions that require 
  *        access to application state.
+ *
+ * @see   \ref mbs_getopt
+ * @see   \ref mbs_poll_interfaces
  */
 struct mbs
 {
@@ -191,25 +194,26 @@ int parse_bytes (const char *str, uint64_t *result);
 /**
  * @brief Parse command-line arguments and initialize the \ref mbs struct.
  *
- * The implementation uses the [Argtable3](http://www.argtable.org/) library.
+ * The implementation relies on the [Argtable3](http://www.argtable.org/) library.
  *
  * @param  argc Passed on from \ref main.
  * @param  argv Passed on from \ref main.
- * @param  s    An \ref mbs struct, to which configuration settings will be 
- *              written.
+ * @param  s    A pointer to an \ref mbs struct, to which configuration settings 
+ *              will be written.
  * @return      Nothing
  */
 void mbs_getopt (int argc, char *argv[], struct mbs *s);
 
 /**
- * @brief Example showing how to document a function with Doxygen.
+ * @brief Sample the amount of data transmitted and received since the last
+  *       iteration and write the results to the provided \ref stats struct. 
  *
- * Description
- *
- * @param  s An \ref mbs struct holding application state and configuration
- *         settings.
- * @param  stats This is an argument.
- * @return something
+ * @param  s     An \ref mbs struct holding application state and configuration
+ *               settings. (Like `this` in class-based OOP).
+ * @param  stats A struct to which the the amount of data received and 
+ *               transmitted since the last iteration will be written, if the 
+ *               function is successful.
+ * @return       0 on success, or -1 if an error occured.
  */
 int mbs_poll_interfaces (struct mbs *s, struct stats *stats);
 
