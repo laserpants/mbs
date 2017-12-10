@@ -37,7 +37,7 @@
  *        rendering the terminal interface of the application. The 
  *        implementation is based on the ncurses library.
  *
- * @see ncurses
+ * @see https://www.gnu.org/software/ncurses/
  *
  * @author Johannes Hildén <hildenjohannes@gmail.com>
  */
