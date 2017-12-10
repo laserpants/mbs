@@ -40,7 +40,7 @@
  *
  * @section Usage
  *
- * How to use.
+ * @TODO: How to use.
  *
  * @section Building
  *
@@ -54,7 +54,7 @@
  *
  * @section Tests
  *
- * Instructions for running the tests.
+ * @TODO: Instructions for running the tests.
  */
 
 /**
