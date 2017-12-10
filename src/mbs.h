@@ -162,8 +162,8 @@ struct mbs
 char *to_human_readable (double bytes, char *buf);
 
 /**
- * @brief Convert the input string, which may include a size suffix, to an
- *        unsigned integer.
+ * @brief Convert the input string pointed to by \a str, which may include a 
+ *        size suffix, to an unsigned integer.
  *
  * This is a utility function, used to parse user provided byte amounts (e.g.,
  * `10K`) to numeric form. If no suffix is given, the behavior of this function
