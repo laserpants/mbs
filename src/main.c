@@ -38,10 +38,6 @@
  * received over a network interface. It is convenient for monitoring data 
  * usage against a pre-paid data bundle or some other fixed usage limit.
  *
- * @section Usage
- *
- * @TODO: How to use.
- *
  * @section Building
  *
  * To build the executable and tests, run
@@ -52,9 +48,46 @@
  * make install
  * @endcode
  *
- * @section Tests
+ * @section Usage
  *
- * @TODO: Instructions for running the tests.
+ * @code
+ * mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
+ * @endcode
+ *
+ * If no `<interface>` is given, the program will try to automatically find an 
+ * active network interface (excluding `lo`).
+ *
+ * @subsection Examples
+ *
+ * Specify the amount of data available using the `--available` (`-a`) flag to run
+ * the command in countdown mode. The following example specifies a data limit of
+ * 300 KB.
+ * 
+ * @code
+ * mbs -a 300K
+ * @endcode
+ * 
+ * By default, the command will exit once this limit is reached, or if the
+ * connection is lost. Use the `--keep-running` flag to modify this behavior.
+ * 
+ * @code
+ * mbs -a 10K --keep-running
+ * @endcode
+ * 
+ * You can also omit the `--available` flag, in which case the command will 
+ * run in default mode&mdash;only showing the amount of data used since it 
+ * started.
+ * 
+ * @section Flags
+ *
+ * | Flag             | Short option   | Description                             |
+ * |------------------|----------------|-----------------------------------------|
+ * | `--help`         |                | Display help and exit.                  |   
+ * | `--version`      |                | Display version info and exit.          |   
+ * | `--verbose`      | `-v`           | Render verbose output.                  |   
+ * | `--ascii`        |                | Disable non-ascii Unicode characters.   |   
+ * | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost.       |   
+ * | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
  */
 
 /**
