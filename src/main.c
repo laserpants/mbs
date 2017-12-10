@@ -88,6 +88,10 @@
  * | `--ascii`        |                | Disable non-ascii Unicode characters.   |   
  * | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost.       |   
  * | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
+ *
+ * @section source Source Code
+ *
+ * * GitHub: https://github.com/laserpants/mbs
  */
 
 /**
