@@ -33,10 +33,11 @@
 
 /**
  * @file window.h
- * @brief File containing example of doxygen usage for quick reference.
+ * @brief This header defines the \ref draw_window function, responsible for
+ *        rendering the terminal interface of the application. The 
+ *        implementation is based on the ncurses library.
  *
- * Here typically goes a more extensive explanation of what the header
- * defines. 
+ * @see ncurses
  *
  * @author Johannes Hildén <hildenjohannes@gmail.com>
  */
@@ -47,14 +48,14 @@
 #include "mbs.h"
 
 /**
- * @brief Render output using the ncurses library.
+ * @brief Render ncurses interface.
  *
  * @param  s         An \ref mbs struct holding application state and 
  *                   configuration settings.
  * @param  tx_active A boolean to indicate whether any data was transmitted 
- *                   since last snapshot.
+ *                   since previous snapshot.
  * @param  rx_active A boolean to indicate whether any data was received since 
- *                   last snapshot.
+ *                   previous snapshot.
  * @return Nothing
  */
 void draw_window (struct mbs *s, bool tx_active, bool rx_active);

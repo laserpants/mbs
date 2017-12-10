@@ -35,26 +35,31 @@
  * @mainpage Welcome!
  *
  * Mbs is a command line tool to keep track of the amount of data sent and 
- * received over a network interface. It can be handy for monitoring data usage 
- * against a pre-paid data bundle or some other fixed usage limit.
+ * received over a network interface. It is convenient for monitoring data 
+ * usage against a pre-paid data bundle or some other fixed usage limit.
+ *
+ * @section Usage
+ *
+ * How to use.
  *
  * @section Building
  *
- * Instructions for building the command.
+ * To build the executable and tests, run
  *
  * @code
  * ./configure
  * make
  * make install
  * @endcode
+ *
+ * @section Tests
+ *
+ * Instructions for running the tests.
  */
 
 /**
  * @file main.c
- * @brief File containing example of doxygen usage for quick reference.
- *
- * Here typically goes a more extensive explanation of what the header
- * defines. 
+ * @brief Application entry point and main loop.
  *
  * @author Johannes Hildén <hildenjohannes@gmail.com>
  */
@@ -81,6 +86,11 @@ sig_handler (int signo)
     loop = false;
 }
 
+/**
+ * @brief This is the application's main entry point. It does initialization
+ * and runs the main loop until a `SIGINT` signal is received, or the user 
+ * presses the 'Q' key.
+ */
 int
 main (int argc, char *argv[])
 {

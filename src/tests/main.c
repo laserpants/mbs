@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../mbs.h"
 
 static void
@@ -18,6 +19,23 @@ test_parse_bytes (char *input, uint64_t match)
         fprintf (stderr, "%lu is not \"%s\"\n", match, input);
         exit (EXIT_FAILURE);
     }
+}
+
+static void
+test_to_human_readable (double bytes, char *s)
+{
+    char buf[10];
+
+    to_human_readable (bytes, buf);
+
+    if (0 != strcmp (s, buf))
+    {
+        fprintf (stderr, "Expected result: %s\n", s);
+        fprintf (stderr, "Actual result: %s\n", buf);
+        exit (EXIT_FAILURE);
+    }
+
+    printf ("Ok!\n");
 }
 
 int 
@@ -59,6 +77,9 @@ main (int argc, char *argv[])
         exit (EXIT_FAILURE);
     }
     
+    test_to_human_readable (4*1024*1024*1024L, "4.000G");
+    test_to_human_readable (1442, "1.4K");
+
     printf ("-------------\n");
     printf ("All tests OK!\n");
     printf ("-------------\n");
