@@ -106,7 +106,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4e34d3b5a895374ad4eb00ea58371a47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Translate <em>bytes</em> to human-readable form.  <a href="#a4e34d3b5a895374ad4eb00ea58371a47">More...</a><br /></td></tr>
 <tr class="separator:a4e34d3b5a895374ad4eb00ea58371a47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb088aa7a9dfa92d58fd5b4e60438396"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mbs_8h.html#acb088aa7a9dfa92d58fd5b4e60438396">parse_bytes</a> (const char *str, uint64_t *result)</td></tr>
-<tr class="memdesc:acb088aa7a9dfa92d58fd5b4e60438396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the input string, which may include a size suffix, to an unsigned integer.  <a href="#acb088aa7a9dfa92d58fd5b4e60438396">More...</a><br /></td></tr>
+<tr class="memdesc:acb088aa7a9dfa92d58fd5b4e60438396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the input string pointed to by <em>str</em>, which may include a size suffix, to an unsigned integer.  <a href="#acb088aa7a9dfa92d58fd5b4e60438396">More...</a><br /></td></tr>
 <tr class="separator:acb088aa7a9dfa92d58fd5b4e60438396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3c0b26393291f8976d8cb6181a45659"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mbs_8h.html#ad3c0b26393291f8976d8cb6181a45659">mbs_getopt</a> (int argc, char *argv[], struct <a class="el" href="structmbs.html">mbs</a> *s)</td></tr>
 <tr class="memdesc:ad3c0b26393291f8976d8cb6181a45659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse command-line arguments and initialize the <a class="el" href="structmbs.html">mbs</a> struct.  <a href="#ad3c0b26393291f8976d8cb6181a45659">More...</a><br /></td></tr>
@@ -257,7 +257,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Convert the input string, which may include a size suffix, to an unsigned integer. </p>
+<p>Convert the input string pointed to by <em>str</em>, which may include a size suffix, to an unsigned integer. </p>
 <p>This is a utility function, used to parse user provided byte amounts (e.g., <code>10K</code>) to numeric form. If no suffix is given, the behavior of this function should be similar, if not identical, to that of <code>strtoull()</code>.</p>
 <p>The following suffixes are recognized:</p>
 <table class="markdownTable">
