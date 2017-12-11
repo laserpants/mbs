@@ -1,0 +1,4 @@
+*.am linguist-vendored=true
+*.in linguist-vendored=true
+*.m4 linguist-vendored=true
+Makefile linguist-vendored=true
