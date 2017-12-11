@@ -51,6 +51,11 @@ started.
 
 ![mbs](https://raw.githubusercontent.com/laserpants/mbs/master/mbs2.gif)
 
+If the `--ascii` flag is provided, only characters in the (extended) ASCII 
+character set are used in the interface:
+
+![mbs](https://raw.githubusercontent.com/laserpants/mbs/master/mbs3.gif)
+
 ### Flags
 
 | Flag             | Short option   | Description                             |
