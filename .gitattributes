@@ -1,4 +1,4 @@
-*.am linguist-vendored=true
-*.in linguist-vendored=true
-*.m4 linguist-vendored=true
-Makefile linguist-vendored=true
+*.am linguist-vendored
+*.in linguist-vendored
+*.m4 linguist-vendored
+Makefile linguist-vendored
