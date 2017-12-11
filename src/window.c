@@ -186,7 +186,8 @@ draw_window (struct mbs *s, bool tx_active, bool rx_active)
             wprintw (s->win, "[");
             for (i = 0; i < 61 * r - 1; ++i)
                 wprintw (s->win, "=");
-            wmove (s->win, 3, 79);
+            for (; i < 60; ++i)
+                wprintw (s->win, "-");
             wprintw (s->win, "]");
         }
         else
