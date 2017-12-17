@@ -219,7 +219,7 @@ main (int argc, char *argv[])
 
                 free (state.ifa_name);
 
-                return -1;
+                return EXIT_FAILURE;
             }
         } 
         else
