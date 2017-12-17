@@ -59,9 +59,9 @@
  *
  * @subsection Examples
  *
- * Specify the amount of data available using the `--available` (`-a`) flag to run
- * the command in countdown mode. The following example specifies a data limit of
- * 300 KB.
+ * Specify the amount of data available using the `--available` (`-a`) flag to 
+ * run the command in *countdown* mode. The following example specifies a data 
+ * limit of 300 KB.
  * 
  * @code
  * mbs -a 300K
@@ -75,18 +75,18 @@
  * @endcode
  * 
  * You can also omit the `--available` flag, in which case the command will 
- * run in default mode&mdash;only showing the amount of data used since it 
+ * run in a simplified mode&mdash;only showing the amount of data used since it 
  * started.
  * 
  * @subsection Persistent sessions
  *
  * When the command is run with the `--persistent` (`-p`) flag present, it will 
  * try to continue from where the last session ended. It does so by reading the 
- * last saved state (sent and received bytes count) from a stats file. Note 
- * that this will not work if the kernel's TX RX counters were reset since last 
- * time the command was run (e.g., after a system reboot).
+ * last saved state (sent and received bytes count) from a *stats* file. Note 
+ * that this will not work if the kernel's TX RX counters were reset since the 
+ * last time the command was run (e.g., after a system reboot).
  *
- * The stat file's location can be explicitly set using the 
+ * The stats file's location can be explicitly set using the 
  * `--statsfile=<path>` flag. If this flag is not provided, then `$HOME/.mbs` 
  * is used as default path.
  *

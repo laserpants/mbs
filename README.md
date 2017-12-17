@@ -29,8 +29,8 @@ active network interface (excluding `lo`).
 #### Examples
 
 Specify the amount of data available using the `--available` (`-a`) flag to run
-the command in countdown mode. The following example specifies a data limit of
-300 KB.
+the command in *countdown* mode. The following example specifies a data limit 
+of 300 KB.
 
 ```
 mbs -a 300K
@@ -38,15 +38,17 @@ mbs -a 300K
 
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
 
-By default, the command will exit once this limit is reached, or if the
-connection is lost. Use the `--keep-running` flag to modify this behavior.
+The network interface to monitor can also be set explicitly; e.g., as in
+`mbs -a 250M wlan0`. By default, the command will exit once the usage limit is 
+reached, or if the connection is lost. Use the `--keep-running` flag to modify 
+this behavior.
 
 ```
 mbs -a 10K --keep-running
 ```
 
 You can also omit the `--available` flag, in which case the command will 
-run in default mode&mdash;only showing the amount of data used since it 
+run in a simplified mode&mdash;only showing the amount of data used since it 
 started.
 
 ![mbs](https://raw.githubusercontent.com/laserpants/mbs/master/mbs2.gif)
@@ -60,12 +62,12 @@ character set are used in the interface:
 
 When the command is run with the `--persistent` (`-p`) flag present, it will 
 try to continue from where the last session ended. It does so by reading the 
-last saved state (sent and received bytes count) from a stats file. Note that 
-this will not work if the kernel's TX RX counters were reset since last time 
-the command was run (e.g., after a system reboot).
+last saved state (sent and received bytes count) from a *stats* file. Note that 
+this will not work if the kernel's TX RX counters were reset since the last 
+time the command was run (e.g., after a system reboot).
 
-The stat file's location can be explicitly set using the `--statsfile=<path>` 
-flag. If this flag is not provided, then `$HOME/.mbs` is used as default path.
+The stats file's location can be set using the `--statsfile=<path>` flag. If 
+this flag is not provided, then `$HOME/.mbs` is used as default path.
 
 ### Flags
 
