@@ -74,13 +74,13 @@ Usage</h1>
 <div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> [-vk] [--help] [--version] [--ascii] [-a &lt;amount&gt;] [&lt;interface&gt;]</div></div><!-- fragment --><p>If no <code>&lt;interface&gt;</code> is given, the program will try to automatically find an active network interface (excluding <code>lo</code>).</p>
 <h2><a class="anchor" id="Examples"></a>
 Examples</h2>
-<p>Specify the amount of data available using the <code>--available</code> (<code>-a</code>) flag to run the command in countdown mode. The following example specifies a data limit of 300 KB.</p>
+<p>Specify the amount of data available using the <code>--available</code> (<code>-a</code>) flag to run the command in <em>countdown</em> mode. The following example specifies a data limit of 300 KB.</p>
 <div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 300K</div></div><!-- fragment --><p>By default, the command will exit once this limit is reached, or if the connection is lost. Use the <code>--keep-running</code> flag to modify this behavior.</p>
-<div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 10K --keep-running</div></div><!-- fragment --><p>You can also omit the <code>--available</code> flag, in which case the command will run in default mode&mdash;only showing the amount of data used since it started.</p>
+<div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 10K --keep-running</div></div><!-- fragment --><p>You can also omit the <code>--available</code> flag, in which case the command will run in a simplified mode&mdash;only showing the amount of data used since it started.</p>
 <h2><a class="anchor" id="Persistent"></a>
 sessions</h2>
-<p>When the command is run with the <code>--persistent</code> (<code>-p</code>) flag present, it will try to continue from where the last session ended. It does so by reading the last saved state (sent and received bytes count) from a stats file. Note that this will not work if the kernel's TX RX counters were reset since last time the command was run (e.g., after a system reboot).</p>
-<p>The stat file's location can be explicitly set using the <code>--statsfile=&lt;path&gt;</code> flag. If this flag is not provided, then <code>$HOME/.mbs</code> is used as default path.</p>
+<p>When the command is run with the <code>--persistent</code> (<code>-p</code>) flag present, it will try to continue from where the last session ended. It does so by reading the last saved state (sent and received bytes count) from a <em>stats</em> file. Note that this will not work if the kernel's TX RX counters were reset since the last time the command was run (e.g., after a system reboot).</p>
+<p>The stats file's location can be explicitly set using the <code>--statsfile=&lt;path&gt;</code> flag. If this flag is not provided, then <code>$HOME/.mbs</code> is used as default path.</p>
 <h1><a class="anchor" id="Flags"></a>
 Flags</h1>
 <table class="markdownTable">
