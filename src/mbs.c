@@ -204,7 +204,8 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
         ),
         keep_running = arg_litn (
             "k", "keep-running", 
-            0, 1, "don't exit when data limit exceeded or connection is lost"
+            0, 1, 
+            "don't exit when data limit is exceeded or connection is lost"
         ),
         persistent = arg_litn (
             "p", "persistent", 
