@@ -48,7 +48,7 @@ mbs -a 10K --keep-running
 ```
 
 You can also omit the `--available` flag, in which case the command will 
-run in default mode&mdash;only showing the amount of data used since it 
+run in a simplified mode&mdash;only showing the amount of data used since it 
 started.
 
 ![mbs](https://raw.githubusercontent.com/laserpants/mbs/master/mbs2.gif)
