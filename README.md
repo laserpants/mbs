@@ -38,7 +38,7 @@ mbs -a 300K
 
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
 
-The network interface to monitor can also be set explicitly; e.g., 
+The network interface to monitor can also be set explicitly; e.g., as in
 `mbs -a 250M wlan0`. By default, the command will exit once the usage limit is 
 reached, or if the connection is lost. Use the `--keep-running` flag to modify 
 this behavior.
