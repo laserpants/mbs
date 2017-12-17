@@ -38,7 +38,8 @@ mbs -a 300K
 
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
 
-By default, the command will exit once this limit is reached, or if the
+The network interface to monitor can be set explicitly; e.g., 
+`mbs -a 250M wlan0`. By default, the command will exit once the usage limit is reached, or if the
 connection is lost. Use the `--keep-running` flag to modify this behavior.
 
 ```
