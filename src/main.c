@@ -59,9 +59,9 @@
  *
  * @subsection Examples
  *
- * Specify the amount of data available using the `--available` (`-a`) flag to run
- * the command in countdown mode. The following example specifies a data limit of
- * 300 KB.
+ * Specify the amount of data available using the `--available` (`-a`) flag to 
+ * run the command in *countdown* mode. The following example specifies a data 
+ * limit of 300 KB.
  * 
  * @code
  * mbs -a 300K
