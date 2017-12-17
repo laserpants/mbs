@@ -89,7 +89,12 @@ enum cmd_flags
      * This flag tells the command not to exit when the data limit is exceeded 
      * or the connection is lost.
      */
-    FLAG_NO_EXIT = 1 << 3  
+    FLAG_NO_EXIT = 1 << 3,
+
+    /**
+     * TODO
+     */
+    FLAG_PERSISTENT = 1 << 4
 };
 
 /**
@@ -137,6 +142,11 @@ struct mbs
      * @brief ncurses window.
      */
     WINDOW *win;            
+
+    /**
+     * @brief File to write TX RX stats to.
+     */
+    FILE *file;
 };
 
 /**

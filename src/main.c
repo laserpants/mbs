@@ -140,7 +140,8 @@ main (int argc, char *argv[])
         0,         /* balance */
         0,         /* flags */
         NULL,      /* ifa_name */
-        NULL       /* WINDOW */
+        NULL,      /* WINDOW */
+        NULL       /* FILE */
     };
 
     struct stats stats = { 0, 0 };
@@ -153,6 +154,15 @@ main (int argc, char *argv[])
         free (state.ifa_name);
         return EXIT_FAILURE;
     } 
+
+    state.file = fopen ("tst.txt", "w");
+
+    if (NULL == state.file)
+    {
+        fprintf (stderr, "Error opening file.\n");
+        free (state.ifa_name);
+        return EXIT_FAILURE;
+    }
 
     state.snapshot = stats;
 
@@ -176,6 +186,7 @@ main (int argc, char *argv[])
         fprintf (stderr, "Error initialising ncurses.\n");
         endwin ();
         free (state.ifa_name);
+        fclose (state.file);
         return EXIT_FAILURE;
     }
 
@@ -218,8 +229,9 @@ main (int argc, char *argv[])
                 fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
 
                 free (state.ifa_name);
+                fclose (state.file);
 
-                return -1;
+                return EXIT_FAILURE;
             }
         } 
         else
@@ -273,6 +285,7 @@ main (int argc, char *argv[])
     }
 
     free (state.ifa_name);
+    fclose (state.file);
 
     return 0;
 }
