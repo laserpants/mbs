@@ -78,6 +78,18 @@
  * run in default mode&mdash;only showing the amount of data used since it 
  * started.
  * 
+ * @subsection Persistent sessions
+ *
+ * When the command is run with the `--persistent` (`-p`) flag present, it will 
+ * try to continue from where the last session ended. It does so by reading the 
+ * last saved state (sent and received bytes count) from a stats file. Note 
+ * that this will not work if the kernel's TX RX counters were reset since last 
+ * time the command was run (e.g., after a system reboot).
+ *
+ * The stat file's location can be explicitly set using the 
+ * `--statsfile=<path>` flag. If this flag is not provided, then `$HOME/.mbs` 
+ * is used as default path.
+ *
  * @section Flags
  *
  * | Flag             | Short option   | Description                             |
@@ -86,8 +98,10 @@
  * | `--version`      |                | Display version info and exit.          |   
  * | `--verbose`      | `-v`           | Render verbose output.                  |   
  * | `--ascii`        |                | Disable non-ascii Unicode characters.   |   
- * | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost.       |   
+ * | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |   
+ * | `--persistent`   | `-p`           | Continue from where last session ended. |
  * | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
+ * | `--statsfile`    |                | Override default statsfile path.        |
  *
  * @section source Source Code
  *
@@ -101,13 +115,16 @@
  * @author Johannes Hildén <hildenjohannes@gmail.com>
  */
 #define _BSD_SOURCE 
+#define __STDC_FORMAT_MACROS
 
+#include <inttypes.h>
 #include <locale.h>
 #include <ncurses.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "mbs.h"
 #include "window.h"
@@ -124,15 +141,17 @@ sig_handler (int signo)
 }
 
 /**
- * @brief This is the application's main entry point. It does initialization
- * and runs the main loop until a `SIGINT` signal is received, or the user 
+ * @brief This is the application's main entry point. After initialization,
+ * it runs the main loop until a `SIGINT` signal is received, or the user 
  * presses the 'Q' key.
  */
 int
 main (int argc, char *argv[])
 {
     struct timeval tv;
-    fd_set s_rd;
+    fd_set         s_rd;
+    uint64_t       balance;
+    bool           balance_set;
 
     struct mbs state = {
         { 0, 0 },  /* snapshot */
@@ -140,31 +159,128 @@ main (int argc, char *argv[])
         0,         /* balance */
         0,         /* flags */
         NULL,      /* ifa_name */
+        NULL,      /* statsfile */
         NULL,      /* WINDOW */
         NULL       /* FILE */
     };
 
     struct stats stats = { 0, 0 };
 
+    /*
+     * Initialize the mbs struct from command-line arguments.
+     */
     mbs_getopt (argc, argv, &state);
+
+    balance_set = !!(state.flags & FLAG_COUNTDOWN);
+
+    if (state.flags & FLAG_VERBOSE)
+        printf ("Using stats file: %s\n", state.statsfile);
+
+    if (-1 == access (state.statsfile, F_OK)) 
+    {
+        FILE *file;
+        file = fopen (state.statsfile, "w+");
+        fprintf (file, "0:0:0:0:0");
+        fflush (file);
+        fclose (file);
+        state.flags &= ~FLAG_PERSISTENT;
+    } 
+
+    state.file = fopen (state.statsfile, "r+");
+
+    if (NULL == state.file)
+    {
+        fprintf (stderr, "Error opening stats file '%s'.\n", state.statsfile);
+    }
+
+    if (state.flags & FLAG_PERSISTENT)
+    {
+        if (5 == fscanf (
+            state.file, "%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64,
+            &state.snapshot.tx_bytes,
+            &state.snapshot.rx_bytes,
+            &state.used.tx_bytes,
+            &state.used.rx_bytes,
+            &balance)) 
+        {
+            if (state.flags & FLAG_VERBOSE)
+            {
+                printf (
+                    "Snapshot TX bytes: %"PRIu64"\n", 
+                    state.snapshot.tx_bytes
+                );
+                printf (
+                    "Snapshot RX bytes: %"PRIu64"\n", 
+                    state.snapshot.rx_bytes
+                );
+                printf ("Used TX bytes: %"PRIu64"\n", state.used.tx_bytes);
+                printf ("Used RX bytes: %"PRIu64"\n", state.used.rx_bytes);
+                printf ("Available: %"PRIu64"\n", balance);
+            }
+
+            if (!(state.flags & FLAG_COUNTDOWN))
+            {
+                state.balance = balance;
+                state.flags |= FLAG_COUNTDOWN;
+            }
+        }
+        else
+        {
+            state.snapshot.tx_bytes = 0;
+            state.snapshot.rx_bytes = 0;
+            state.used.tx_bytes = 0;
+            state.used.rx_bytes = 0;
+            state.flags &= ~FLAG_PERSISTENT;
+        }
+    }
 
     if (-1 == mbs_poll_interfaces (&state, &stats))
     {
         fprintf (stderr, "No such interface: %s\n", state.ifa_name);
         free (state.ifa_name);
+        free (state.statsfile);
+
+        if (NULL != state.file)
+            fclose (state.file);
+
         return EXIT_FAILURE;
     } 
 
-    state.file = fopen ("tst.txt", "w");
-
-    if (NULL == state.file)
+    if (state.flags & FLAG_PERSISTENT)
     {
-        fprintf (stderr, "Error opening file.\n");
-        free (state.ifa_name);
-        return EXIT_FAILURE;
-    }
+        if (state.snapshot.tx_bytes > stats.tx_bytes || 
+            state.snapshot.rx_bytes > stats.rx_bytes)
+        {
+            fprintf (
+                stderr, 
+                "Error: The --persistent flag was provided, but it looks like "
+                "the kernel's TX/RX counters were reset since last session.\n"
+            );
 
-    state.snapshot = stats;
+            free (state.ifa_name);
+            free (state.statsfile);
+
+            if (NULL != state.file)
+                fclose (state.file);
+
+            return EXIT_FAILURE;
+        }
+
+        if (true == balance_set)
+        {
+            const uint64_t tx_diff = stats.tx_bytes - state.snapshot.tx_bytes,
+                           rx_diff = stats.rx_bytes - state.snapshot.rx_bytes;
+
+            state.used.tx_bytes += tx_diff;
+            state.used.rx_bytes += rx_diff;
+
+            state.snapshot = stats;
+        }
+    }
+    else
+    {
+        state.snapshot = stats;
+    }
 
     if (state.flags & FLAG_VERBOSE)
         printf ("Monitoring network interface %s.\n", state.ifa_name);
@@ -184,9 +300,14 @@ main (int argc, char *argv[])
     if (NULL == state.win)
     {
         fprintf (stderr, "Error initialising ncurses.\n");
+
         endwin ();
         free (state.ifa_name);
-        fclose (state.file);
+        free (state.statsfile);
+
+        if (NULL != state.file)
+            fclose (state.file);
+
         return EXIT_FAILURE;
     }
 
@@ -229,7 +350,10 @@ main (int argc, char *argv[])
                 fprintf (stderr, "Interface %s is gone.\n", state.ifa_name);
 
                 free (state.ifa_name);
-                fclose (state.file);
+                free (state.statsfile);
+
+                if (NULL != state.file)
+                    fclose (state.file);
 
                 return EXIT_FAILURE;
             }
@@ -252,6 +376,26 @@ main (int argc, char *argv[])
                     state.balance -= diff;
                 else
                     state.balance = 0;
+            }
+
+            if (NULL != state.file)
+            {
+                rewind (state.file);
+
+                if (-1 == ftruncate (fileno (state.file), fprintf (
+                    state.file, 
+                    "%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64, 
+                    stats.tx_bytes,
+                    stats.rx_bytes,
+                    state.used.tx_bytes,
+                    state.used.rx_bytes,
+                    state.balance
+                )))
+                {
+                    fprintf (stderr, "Error writing to stats file.");
+                }
+
+                fflush (state.file);
             }
 
             draw_window (&state, !!tx_diff, !!rx_diff);
@@ -285,7 +429,10 @@ main (int argc, char *argv[])
     }
 
     free (state.ifa_name);
-    fclose (state.file);
+    free (state.statsfile);
+
+    if (NULL != state.file)
+        fclose (state.file);
 
     return 0;
 }
