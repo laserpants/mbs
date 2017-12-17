@@ -33,11 +33,8 @@
 
 /**
  * @file mbs.h
- * @brief This header file defines the methods and data structures that provide 
- *        the core functionality of the command.
- *
- * Here typically goes a more extensive explanation of what the header
- * defines. 
+ * @brief This header file defines the methods and data structures which 
+ *        provide the core functionality of the command.
  *
  * @author Johannes Hildén <hildenjohannes@gmail.com>
  */
@@ -92,7 +89,11 @@ enum cmd_flags
     FLAG_NO_EXIT = 1 << 3,
 
     /**
-     * TODO
+     * If this flag is set, the command will try to continue from where the 
+     * last session ended. It does so by reading the last known state from a 
+     * stats file. Note that this will not work if the kernel's TX RX counters 
+     * were reset since last time the command was run (e.g., after a system 
+     * reboot).
      */
     FLAG_PERSISTENT = 1 << 4
 };
@@ -112,7 +113,7 @@ enum cmd_flags
 struct mbs
 {
     /**
-     * @brief Last TX RX value pair read.
+     * @brief Most recent TX RX value pair read.
      */
     struct stats snapshot;       
 
@@ -139,12 +140,17 @@ struct mbs
     char *ifa_name;       
 
     /**
-     * @brief ncurses window.
+     * @brief Path to the file to which TX RX stats are written.
+     */
+    char *statsfile;
+
+    /**
+     * @brief ncurses window
      */
     WINDOW *win;            
 
     /**
-     * @brief File to write TX RX stats to.
+     * @brief File pointer representing the stats file.
      */
     FILE *file;
 };
