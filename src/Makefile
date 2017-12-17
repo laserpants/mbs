@@ -382,7 +382,7 @@ CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPPFLAGS = 
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"mbs\" -DPACKAGE_TARNAME=\"mbs\" -DPACKAGE_VERSION=\"0.1\" -DPACKAGE_STRING=\"mbs\ 0.1\" -DPACKAGE_BUGREPORT=\"hildenjohannes@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"mbs\" -DVERSION=\"0.1\"
+DEFS = -DPACKAGE_NAME=\"mbs\" -DPACKAGE_TARNAME=\"mbs\" -DPACKAGE_VERSION=\"0.1.1\" -DPACKAGE_STRING=\"mbs\ 0.1.1\" -DPACKAGE_BUGREPORT=\"hildenjohannes@gmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"mbs\" -DVERSION=\"0.1.1\"
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
@@ -405,10 +405,10 @@ OBJEXT = o
 PACKAGE = mbs
 PACKAGE_BUGREPORT = hildenjohannes@gmail.com
 PACKAGE_NAME = mbs
-PACKAGE_STRING = mbs 0.1
+PACKAGE_STRING = mbs 0.1.1
 PACKAGE_TARNAME = mbs
 PACKAGE_URL = 
-PACKAGE_VERSION = 0.1
+PACKAGE_VERSION = 0.1.1
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_LIBDIR = 
@@ -416,7 +416,7 @@ PKG_CONFIG_PATH =
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 0.1
+VERSION = 0.1.1
 abs_builddir = /home/laserpants/code/mbs/src
 abs_srcdir = /home/laserpants/code/mbs/src
 abs_top_builddir = /home/laserpants/code/mbs
