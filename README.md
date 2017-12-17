@@ -51,16 +51,34 @@ started.
 
 ![mbs](https://raw.githubusercontent.com/laserpants/mbs/master/mbs2.gif)
 
+If the `--ascii` flag is provided, only characters in the (extended) ASCII 
+character set are used in the interface:
+
+![mbs](https://raw.githubusercontent.com/laserpants/mbs/master/mbs3.gif)
+
+#### Persistent sessions
+
+When the command is run with the `--persistent` (`-p`) flag present, it will 
+try to continue from where the last session ended. It does so by reading the 
+last saved state (sent and received bytes count) from a stats file. Note that 
+this will not work if the kernel's TX RX counters were reset since last time 
+the command was run (e.g., after a system reboot).
+
+The stat file's location can be explicitly set using the `--statsfile=<path>` 
+flag. If this flag is not provided, then `$HOME/.mbs` is used as default path.
+
 ### Flags
 
 | Flag             | Short option   | Description                             |
 |------------------|----------------|-----------------------------------------|
-| `--help`         |                | Display help and exit.                  |   
-| `--version`      |                | Display version info and exit.          |   
-| `--verbose`      | `-v`           | Render verbose output.                  |   
-| `--ascii`        |                | Disable non-ascii Unicode characters.   |   
-| `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost.       |   
-| `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
+| `--help`         |                | Display help and exit.                  |
+| `--version`      |                | Display version info and exit.          |
+| `--verbose`      | `-v`           | Render verbose output.                  |
+| `--ascii`        |                | Disable non-ascii Unicode characters.   |
+| `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |
+| `--persistent`   | `-p`           | Continue from where last session ended. |
+| `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |
+| `--statsfile`    |                | Override default statsfile path.        |
 
 The `--available` argument accepts the following suffixes:
 
