@@ -74,7 +74,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This header file defines the methods and data structures that provide the core functionality of the command.  
+<p>This header file defines the methods and data structures which provide the core functionality of the command.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;ncurses.h&gt;</code><br />
@@ -84,7 +84,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstats.html">stats</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An rx-tx pair which represents the amount of data received and transmitted over a network interface.  <a href="structstats.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An RX TX pair which represents the amount of data received and transmitted over a network interface.  <a href="structstats.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbs.html">mbs</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct encapsulates various application state and configuration settings. The fields of the struct roughly correspond to what one normally would have defined as data members in a class-based object oriented language setting. However, since a C struct cannot have methods, we allocate <code>mbs</code> on the stack in <a class="el" href="main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>, and pass it explicitly, as an argument, to the various functions that require access to application state.  <a href="structmbs.html#details">More...</a><br /></td></tr>
@@ -92,10 +92,14 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:af6dbe15486cec56f9ae69db2151d0f72"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72">cmd_flags</a> { <a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72acfdd20a92c2b136b71ea080e613ab113">FLAG_VERBOSE</a> = 1 &lt;&lt; 0, 
+<tr class="memitem:af6dbe15486cec56f9ae69db2151d0f72"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72">cmd_flags</a> { <br />
+&#160;&#160;<a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72acfdd20a92c2b136b71ea080e613ab113">FLAG_VERBOSE</a> = 1 &lt;&lt; 0, 
 <a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72a6f8d824a3597401d9baa0205094298ed">FLAG_COUNTDOWN</a> = 1 &lt;&lt; 1, 
 <a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72adcf5e82b998d9dce0732f61e88022ce6">FLAG_ASCII</a> = 1 &lt;&lt; 2, 
-<a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72a85f4fa226673f00873c42d0fa0d6e829">FLAG_NO_EXIT</a> = 1 &lt;&lt; 3
+<a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72a85f4fa226673f00873c42d0fa0d6e829">FLAG_NO_EXIT</a> = 1 &lt;&lt; 3, 
+<br />
+&#160;&#160;<a class="el" href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72a75be2d634d0480256370ef43d51f8456">FLAG_PERSISTENT</a> = 1 &lt;&lt; 4
+<br />
  }</td></tr>
 <tr class="memdesc:af6dbe15486cec56f9ae69db2151d0f72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration flags controlling the behavior of the application.  <a href="mbs_8h.html#af6dbe15486cec56f9ae69db2151d0f72">More...</a><br /></td></tr>
 <tr class="separator:af6dbe15486cec56f9ae69db2151d0f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,8 +120,7 @@ Functions</h2></td></tr>
 <tr class="separator:a46a17ac376feb95b2f6f0bb4ab72af48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This header file defines the methods and data structures that provide the core functionality of the command. </p>
-<p>Here typically goes a more extensive explanation of what the header defines.</p>
+<div class="textblock"><p>This header file defines the methods and data structures which provide the core functionality of the command. </p>
 <dl class="section author"><dt>Author</dt><dd>Johannes Hildén <a href="#" onclick="location.href='mai'+'lto:'+'hil'+'de'+'njo'+'ha'+'nne'+'s@'+'gma'+'il'+'.co'+'m'; return false;">hilde<span style="display: none;">.nosp@m.</span>njoh<span style="display: none;">.nosp@m.</span>annes<span style="display: none;">.nosp@m.</span>@gma<span style="display: none;">.nosp@m.</span>il.co<span style="display: none;">.nosp@m.</span>m</a> </dd></dl>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="af6dbe15486cec56f9ae69db2151d0f72"></a>
@@ -141,6 +144,8 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="af6dbe15486cec56f9ae69db2151d0f72adcf5e82b998d9dce0732f61e88022ce6"></a>FLAG_ASCII&#160;</td><td class="fielddoc"><p>Setting this flag disables non-ascii Unicode characters in the terminal interface. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="af6dbe15486cec56f9ae69db2151d0f72a85f4fa226673f00873c42d0fa0d6e829"></a>FLAG_NO_EXIT&#160;</td><td class="fielddoc"><p>This flag tells the command not to exit when the data limit is exceeded or the connection is lost. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af6dbe15486cec56f9ae69db2151d0f72a75be2d634d0480256370ef43d51f8456"></a>FLAG_PERSISTENT&#160;</td><td class="fielddoc"><p>If this flag is set, the command will try to continue from where the last session ended. It does so by reading the last known state from a stats file. Note that this will not work if the kernel's TX RX counters were reset since last time the command was run (e.g., after a system reboot). </p>
 </td></tr>
 </table>
 

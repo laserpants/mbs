@@ -77,7 +77,7 @@ $(function() {
 Data Fields</h2></td></tr>
 <tr class="memitem:aedb443e710fded8cd0a712b74fde854b"><td class="memItemLeft" align="right" valign="top"><a id="aedb443e710fded8cd0a712b74fde854b"></a>
 struct <a class="el" href="structstats.html">stats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbs.html#aedb443e710fded8cd0a712b74fde854b">snapshot</a></td></tr>
-<tr class="memdesc:aedb443e710fded8cd0a712b74fde854b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Last TX RX value pair read. <br /></td></tr>
+<tr class="memdesc:aedb443e710fded8cd0a712b74fde854b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Most recent TX RX value pair read. <br /></td></tr>
 <tr class="separator:aedb443e710fded8cd0a712b74fde854b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5bbba40fc081dbf3da16c058053e57a"><td class="memItemLeft" align="right" valign="top"><a id="ab5bbba40fc081dbf3da16c058053e57a"></a>
 struct <a class="el" href="structstats.html">stats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbs.html#ab5bbba40fc081dbf3da16c058053e57a">used</a></td></tr>
@@ -94,10 +94,18 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbs.html#a52511d6d0de50a8496b4813bf99ff6ed">ifa_name</a></td></tr>
 <tr class="memdesc:a52511d6d0de50a8496b4813bf99ff6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Network interface name. <br /></td></tr>
 <tr class="separator:a52511d6d0de50a8496b4813bf99ff6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac21c424fabdf0ee84de5776dd517cbf5"><td class="memItemLeft" align="right" valign="top"><a id="ac21c424fabdf0ee84de5776dd517cbf5"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbs.html#ac21c424fabdf0ee84de5776dd517cbf5">statsfile</a></td></tr>
+<tr class="memdesc:ac21c424fabdf0ee84de5776dd517cbf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the file to which TX RX stats are written. <br /></td></tr>
+<tr class="separator:ac21c424fabdf0ee84de5776dd517cbf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0af6e14389d85f7eb95a9dc30259815e"><td class="memItemLeft" align="right" valign="top"><a id="a0af6e14389d85f7eb95a9dc30259815e"></a>
 WINDOW *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbs.html#a0af6e14389d85f7eb95a9dc30259815e">win</a></td></tr>
-<tr class="memdesc:a0af6e14389d85f7eb95a9dc30259815e"><td class="mdescLeft">&#160;</td><td class="mdescRight">ncurses window. <br /></td></tr>
+<tr class="memdesc:a0af6e14389d85f7eb95a9dc30259815e"><td class="mdescLeft">&#160;</td><td class="mdescRight">ncurses window <br /></td></tr>
 <tr class="separator:a0af6e14389d85f7eb95a9dc30259815e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a761ea46e280bfd7e2c6b9e773e9ce78d"><td class="memItemLeft" align="right" valign="top"><a id="a761ea46e280bfd7e2c6b9e773e9ce78d"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbs.html#a761ea46e280bfd7e2c6b9e773e9ce78d">file</a></td></tr>
+<tr class="memdesc:a761ea46e280bfd7e2c6b9e773e9ce78d"><td class="mdescLeft">&#160;</td><td class="mdescRight">File pointer representing the stats file. <br /></td></tr>
+<tr class="separator:a761ea46e280bfd7e2c6b9e773e9ce78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This struct encapsulates various application state and configuration settings. The fields of the struct roughly correspond to what one normally would have defined as data members in a class-based object oriented language setting. However, since a C struct cannot have methods, we allocate <code>mbs</code> on the stack in <a class="el" href="main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>, and pass it explicitly, as an argument, to the various functions that require access to application state. </p>
