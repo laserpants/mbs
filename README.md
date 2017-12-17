@@ -65,7 +65,9 @@ character set are used in the interface:
 | `--verbose`      | `-v`           | Render verbose output.                  |   
 | `--ascii`        |                | Disable non-ascii Unicode characters.   |   
 | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost.       |   
+| `--persistent`   | `-p`           | Continue from where last session ended.                              |
 | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
+| `--statsfile`    |                | Override default statsfile path.        |
 
 The `--available` argument accepts the following suffixes:
 
