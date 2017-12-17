@@ -45,7 +45,7 @@
 #include <ncurses.h>
 
 /**
- * @brief An rx-tx pair which represents the amount of data received and 
+ * @brief An RX TX pair which represents the amount of data received and 
  *        transmitted over a network interface.
  */
 struct stats 
