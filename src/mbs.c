@@ -31,8 +31,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define _BSD_SOURCE 
+#define __STDC_FORMAT_MACROS
 
 #include <ifaddrs.h>
+#include <inttypes.h>
+#include <limits.h>
 #include <linux/if_link.h>
 #include <net/if.h>
 #include <stdbool.h>
@@ -170,11 +173,13 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
                    *help, 
                    *version,
                    *ascii,
-                   *keep_running;
+                   *keep_running,
+                   *persistent;
 
     struct arg_str *iface;
     struct arg_end *end;
-    struct arg_str *available;
+    struct arg_str *available,
+                   *statsfile;
 
     int nerrors;
     const char command[] = "mbs";
@@ -201,9 +206,17 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
             "k", "keep-running", 
             0, 1, "don't exit when data limit exceeded or connection is lost"
         ),
+        persistent = arg_litn (
+            "p", "persistent", 
+            0, 1, "continue from where last session ended"
+        ),
         available = arg_strn (
             "a", "available", "<amount>",
             0, 1, "data available to use in your subscription plan or budget"
+        ),
+        statsfile = arg_strn (
+            NULL, "statsfile", "<path>",
+            0, 1, "stats file location (for persistent sessions)"
         ),
         iface = arg_strn (
             NULL, NULL, "<interface>", 
@@ -257,10 +270,22 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
         exit (EXIT_FAILURE);
     }
 
+    if (statsfile->count > 0)
+    {
+        s->statsfile = strdup (*statsfile->sval);
+    }
+    else
+    {
+        char file[PATH_MAX];
+        snprintf (file, PATH_MAX, "%s/.mbs", getenv ("HOME"));
+        s->statsfile = strdup (file);
+    }
+
     set_flag (&s->flags, !!verb->count, FLAG_VERBOSE);
     set_flag (&s->flags, !!available->count, FLAG_COUNTDOWN);
     set_flag (&s->flags, !!ascii->count, FLAG_ASCII);
     set_flag (&s->flags, !!keep_running->count, FLAG_NO_EXIT);
+    set_flag (&s->flags, !!persistent->count, FLAG_PERSISTENT);
 
     if (s->flags & FLAG_VERBOSE) 
     {
