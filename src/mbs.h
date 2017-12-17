@@ -204,12 +204,13 @@ int parse_bytes (const char *str, uint64_t *result);
 /**
  * @brief Parse command-line arguments and initialize the \ref mbs struct.
  *
- * The implementation relies on the [Argtable3](http://www.argtable.org/) library.
+ * The implementation relies on the [Argtable3](http://www.argtable.org/) 
+ * library.
  *
  * @param  argc Passed on from \ref main.
  * @param  argv Passed on from \ref main.
- * @param  s    A pointer to an \ref mbs struct, to which configuration settings 
- *              will be written.
+ * @param  s    A pointer to an \ref mbs struct, to which configuration 
+ *              settings will be written.
  * @return      Nothing
  */
 void mbs_getopt (int argc, char *argv[], struct mbs *s);
