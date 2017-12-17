@@ -232,7 +232,7 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
         printf ("Usage: %s", command);
         arg_print_syntax (stdout, argtable, "\n");
         printf ("Track amount of data transferred over a network interface "
-            "against your data plan, or a budget.\n\n");
+            "against your data plan, or a set budget.\n\n");
         arg_print_glossary (stdout, argtable, "  %-25s %s\n");
         arg_freetable (argtable, sizeof (argtable) / sizeof (argtable[0]));
         exit (EXIT_SUCCESS);
