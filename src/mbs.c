@@ -240,7 +240,7 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
 
     if (version->count > 0)
     {
-        printf ("mbs version 0.1\n");
+        printf ("mbs version 0.1.1\n");
         arg_freetable (argtable, sizeof (argtable) / sizeof (argtable[0]));
         exit (EXIT_SUCCESS);
     }
