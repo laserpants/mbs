@@ -56,6 +56,13 @@ character set are used in the interface:
 
 ![mbs](https://raw.githubusercontent.com/laserpants/mbs/master/mbs3.gif)
 
+#### Persistent sessions
+
+TODO
+
+The stat file's location can be set using the `--statsfile=<path>` flag. If 
+this flag is not provided, then `$HOME/.mbs` is used as default path.
+
 ### Flags
 
 | Flag             | Short option   | Description                             |
