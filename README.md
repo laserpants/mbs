@@ -20,7 +20,7 @@ with `sudo`.
 ### Usage
 
 ```
-mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
+mbs [-vkp] [--help] [--version] [--ascii] [-a <amount>] [--statsfile=<path>] [<interface>]
 ```
 
 If no `<interface>` is given, the program will try to automatically find an 
@@ -82,7 +82,7 @@ this flag is not provided, then `$HOME/.mbs` is used as default path.
 | `--verbose`      | `-v`           | Render verbose output.                  |
 | `--ascii`        |                | Disable non-ascii Unicode characters.   |
 | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |
-| `--persistent`   | `-p`           | Continue from where last session ended. |
+| `--persistent`   | `-p`           | Continue from where last session ended. (See [Persistent sessions](https://github.com/laserpants/mbs#persistent-sessions).) |
 | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |
 | `--statsfile`    |                | Override default stats file path. (See [Persistent sessions](https://github.com/laserpants/mbs#persistent-sessions).) |
 
