@@ -65,6 +65,10 @@ main (int argc, char *argv[])
     test_parse_bytes ("132G", 132*1024*1024*1024UL);
     test_parse_bytes ("230GB", 230*1024*1024*1024UL);
     test_parse_bytes ("246960619520", 230*1024*1024*1024UL);
+    printf ("Testing input with decimal point\n");
+    test_parse_bytes ("1.1K", 1126);
+    test_parse_bytes ("15.2M", 15938355);
+    test_parse_bytes ("15.2m", 15200000);
 
     if (-1 != parse_bytes ("xxx", &result))
     {
