@@ -1,4 +1,4 @@
-AC_INIT([mbs], [0.1.1], [hildenjohannes@gmail.com])
+AC_INIT([mbs], [0.1.2], [hildenjohannes@gmail.com])
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror])
 AC_PROG_CC
 AC_CONFIG_FILES([
