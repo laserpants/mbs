@@ -102,7 +102,7 @@
  * | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |   
  * | `--persistent`   | `-p`           | Continue from where last session ended. |
  * | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
- * | `--statsfile`    |                | Override default statsfile path.        |
+ * | `--statsfile`    |                | Override default stats file path.       |
  *
  * @section source Source Code
  *
