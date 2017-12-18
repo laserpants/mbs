@@ -36,13 +36,13 @@ of 300 KB.
 mbs -a 300K
 ```
 
+![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
+
 To tell the command to monitor the network interface `wlan0`:
 
 ```
 mbs -a 300K wlan0
 ```
-
-![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
 
 By default, the command will exit once this usage limit is reached, or if the 
 connection is lost. Use the `--keep-running` flag to modify this behavior.
