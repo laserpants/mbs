@@ -51,7 +51,7 @@
  * @section Usage
  *
  * @code
- * mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
+ * mbs [-vkp] [--help] [--version] [--ascii] [-a <amount>] [--statsfile=<path>] [<interface>]
  * @endcode
  *
  * If no `<interface>` is given, the program will try to automatically find an 
