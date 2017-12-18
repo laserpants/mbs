@@ -63,7 +63,7 @@ character set are used in the interface:
 When the command is run with the `--persistent` (`-p`) flag, it will try to 
 continue from where the last session ended. It does so by reading the last 
 saved state (sent and received bytes count) from a *stats* file. Note that this 
-will not work if the kernel's TX RX counters were reset since the last time the 
+will not work if the kernel's TX/RX counters were reset since the last time the 
 command was run (e.g., after a system reboot).
 
 The stats file's location can be set using the `--statsfile=<path>` flag. If 
@@ -80,7 +80,7 @@ this flag is not provided, then `$HOME/.mbs` is used as default path.
 | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |
 | `--persistent`   | `-p`           | Continue from where last session ended. |
 | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |
-| `--statsfile`    |                | Override default statsfile path.        |
+| `--statsfile`    |                | Override default stats file path.       |
 
 The `--available` argument accepts the following suffixes:
 
