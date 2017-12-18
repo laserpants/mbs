@@ -66,11 +66,16 @@
  * @code
  * mbs -a 300K
  * @endcode
- * 
- * The network interface to monitor can also be set explicitly; e.g., as in
- * `mbs -a 250M wlan0`. By default, the command will exit once the usage limit 
- * is reached, or if the connection is lost. Use the `--keep-running` flag to 
- * modify this behavior.
+ *
+ * To tell the command to monitor the network interface `wlan0`:
+ *
+ * @code
+ * mbs -a 300K wlan0
+ * @endcode
+ *
+ * By default, the command will exit once this usage limit is reached, or if 
+ * the connection is lost. Use the `--keep-running` flag to modify this 
+ * behavior.
  * 
  * @code
  * mbs -a 10K --keep-running
@@ -104,9 +109,25 @@
  * | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
  * | `--statsfile`    |                | Override default stats file path.       |
  *
+ * The `--available` argument accepts the following suffixes:
+ *
+ * | Suffix                     | Unit                   | Size             |
+ * |----------------------------|------------------------|------------------|
+ * | **B**, **b**, or no suffix | Bytes                  | 1                |
+ * | **kB**, or **k**           | Kilobyte               | 1000             |
+ * | **KB**, **K**, or **KiB**  | Kibibyte<sup>†</sup>   | 2<sup>10</sup>   |
+ * | **mB**, or **m**           | Megabyte               | 1000<sup>2</sup> |
+ * | **MB**, **M**, or **MiB**  | Mebibyte<sup>†</sup>   | 2<sup>20</sup>   |
+ * | **gB**, or **g**           | Gigabyte               | 1000<sup>3</sup> |
+ * | **GB**, **G**, or **GiB**  | Gibibyte<sup>†</sup>   | 2<sup>30</sup>   |
+ * 
+ * †) Defined by the International Electrotechnical Commission (IEC).
+ * 
+ * A decimal point can also be used; e.g., `mbs -a 100.5M`.
+ * 
  * @section source Source Code
  *
- * * GitHub: https://github.com/laserpants/mbs
+ * - GitHub: https://github.com/laserpants/mbs
  */
 
 /**

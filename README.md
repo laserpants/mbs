@@ -38,10 +38,14 @@ mbs -a 300K
 
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
 
-The network interface to monitor can also be set explicitly; e.g., as in
-`mbs -a 250M wlan0`. By default, the command will exit once the usage limit is 
-reached, or if the connection is lost. Use the `--keep-running` flag to modify 
-this behavior.
+To tell the command to monitor the network interface `wlan0`:
+
+```
+mbs -a 300K wlan0
+```
+
+By default, the command will exit once this usage limit is reached, or if the 
+connection is lost. Use the `--keep-running` flag to modify this behavior.
 
 ```
 mbs -a 10K --keep-running
@@ -80,7 +84,7 @@ this flag is not provided, then `$HOME/.mbs` is used as default path.
 | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |
 | `--persistent`   | `-p`           | Continue from where last session ended. |
 | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |
-| `--statsfile`    |                | Override default stats file path.       |
+| `--statsfile`    |                | Override default stats file path. (See [Persistent sessions](https://github.com/laserpants/mbs#persistent-sessions).) |
 
 The `--available` argument accepts the following suffixes:
 
@@ -95,6 +99,8 @@ The `--available` argument accepts the following suffixes:
 | **GB**, **G**, or **GiB**  | Gibibyte<sup>†</sup>   | 2<sup>30</sup>   |
 
 †) Defined by the International Electrotechnical Commission (IEC).
+
+A decimal point can also be used; e.g., `mbs -a 100.5M`.
 
 ### Third-party libraries
 

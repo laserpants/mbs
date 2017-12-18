@@ -105,7 +105,7 @@ int
 parse_bytes (const char *str, uint64_t *result)
 {
     char *suffix;
-    uint64_t b;
+    double b;
 
     if (NULL == str || 0 == strlen (str))
     {
@@ -113,7 +113,7 @@ parse_bytes (const char *str, uint64_t *result)
         return 0;
     }
 
-    b = strtoull (str, &suffix, 10);
+    b = strtod (str, &suffix);
 
     if (0 == strlen (suffix) || 
         0 == strcmp ("B", suffix) || 
@@ -132,7 +132,7 @@ parse_bytes (const char *str, uint64_t *result)
              0 == strcmp ("K", suffix)  || 
              0 == strcmp ("KiB", suffix))
     {
-        *result = b << 10;
+        *result = 1024 * b;
         return 0;
     }
     else if (0 == strcmp ("mB", suffix) || 
@@ -145,7 +145,7 @@ parse_bytes (const char *str, uint64_t *result)
              0 == strcmp ("M", suffix)  ||
              0 == strcmp ("MiB", suffix))
     {
-        *result = b << 20;
+        *result = 1024 * 1024 * b;
         return 0;
     }
     else if (0 == strcmp ("gB", suffix) || 
@@ -158,7 +158,7 @@ parse_bytes (const char *str, uint64_t *result)
              0 == strcmp ("G", suffix)  ||
              0 == strcmp ("GiB", suffix))
     {
-        *result = b << 30;
+        *result = 1024 * 1024 * 1024 * b;
         return 0;
     }
 
@@ -241,7 +241,7 @@ mbs_getopt (int argc, char *argv[], struct mbs *s)
 
     if (version->count > 0)
     {
-        printf ("mbs version 0.1.1\n");
+        printf ("mbs version 0.1.2\n");
         arg_freetable (argtable, sizeof (argtable) / sizeof (argtable[0]));
         exit (EXIT_SUCCESS);
     }
