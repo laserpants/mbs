@@ -79,7 +79,7 @@ Examples</h2>
 <div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 10K --keep-running</div></div><!-- fragment --><p>You can also omit the <code>--available</code> flag, in which case the command will run in a simplified mode&mdash;only showing the amount of data used since it started.</p>
 <h2><a class="anchor" id="persistent"></a>
 Persistent sessions</h2>
-<p>When the command is run with the <code>--persistent</code> (<code>-p</code>) flag present, it will try to continue from where the last session ended. It does so by reading the last saved state (sent and received bytes count) from a <em>stats</em> file. Note that this will not work if the kernel's TX RX counters were reset since the last time the command was run (e.g., after a system reboot).</p>
+<p>When the command is run with the <code>--persistent</code> (<code>-p</code>) flag, it will try to continue from where the last session ended. It does so by reading the last saved state (sent and received bytes count) from a <em>stats</em> file. Note that this will not work if the kernel's TX RX counters were reset since the last time the command was run (e.g., after a system reboot).</p>
 <p>The stats file's location can be set using the <code>--statsfile=&lt;path&gt;</code> flag. If this flag is not provided, then <code>$HOME/.mbs</code> is used as default path.</p>
 <h1><a class="anchor" id="Flags"></a>
 Flags</h1>
