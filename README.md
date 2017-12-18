@@ -36,12 +36,16 @@ of 300 KB.
 mbs -a 300K
 ```
 
+To tell the command to monitor the network interface `wlan0`:
+
+```
+mbs -a 300K wlan0
+```
+
 ![mbs](https://github.com/laserpants/mbs/blob/master/mbs.gif)
 
-The network interface to monitor can also be set explicitly; e.g., as in
-`mbs -a 250M wlan0`. By default, the command will exit once the usage limit is 
-reached, or if the connection is lost. Use the `--keep-running` flag to modify 
-this behavior.
+By default, the command will exit once this usage limit is reached, or if the 
+connection is lost. Use the `--keep-running` flag to modify this behavior.
 
 ```
 mbs -a 10K --keep-running
