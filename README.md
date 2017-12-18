@@ -96,6 +96,8 @@ The `--available` argument accepts the following suffixes:
 
 †) Defined by the International Electrotechnical Commission (IEC).
 
+A decimal point can also be used; e.g., `mbs -a 100.5M`.
+
 ### Third-party libraries
 
 This repository includes [Argtable3](http://www.argtable.org/) as a git submodule. The Argtable3 library is copyright (c) 1998-2001, 2003-2011 Stewart Heitmann and licensed under the 3-Clause BSD License.
