@@ -75,7 +75,8 @@ Usage</h1>
 <h2><a class="anchor" id="Examples"></a>
 Examples</h2>
 <p>Specify the amount of data available using the <code>--available</code> (<code>-a</code>) flag to run the command in <em>countdown</em> mode. The following example specifies a data limit of 300 KB.</p>
-<div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 300K</div></div><!-- fragment --><p>The network interface to monitor can also be set explicitly; e.g., as in <code>mbs -a 250M wlan0</code>. By default, the command will exit once the usage limit is reached, or if the connection is lost. Use the <code>--keep-running</code> flag to modify this behavior.</p>
+<div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 300K</div></div><!-- fragment --><p>To tell the command to monitor the network interface <code>wlan0</code>:</p>
+<div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 300K wlan0</div></div><!-- fragment --><p>By default, the command will exit once this usage limit is reached, or if the connection is lost. Use the <code>--keep-running</code> flag to modify this behavior.</p>
 <div class="fragment"><div class="line"><a class="code" href="structmbs.html">mbs</a> -a 10K --keep-running</div></div><!-- fragment --><p>You can also omit the <code>--available</code> flag, in which case the command will run in a simplified mode&mdash;only showing the amount of data used since it started.</p>
 <h2><a class="anchor" id="persistent"></a>
 Persistent sessions</h2>
@@ -103,6 +104,27 @@ Flags</h1>
 <tr class="markdownTableBody" class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>--statsfile</code>  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Override default stats file path.   </td></tr>
 </table>
+<p>The <code>--available</code> argument accepts the following suffixes:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Suffix  </th><th class="markdownTableHeadNone">Unit  </th><th class="markdownTableHeadNone">Size   </th></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>B</b>, <b>b</b>, or no suffix  </td><td class="markdownTableBodyNone">Bytes  </td><td class="markdownTableBodyNone">1   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>kB</b>, or <b>k</b>  </td><td class="markdownTableBodyNone">Kilobyte  </td><td class="markdownTableBodyNone">1000   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>KB</b>, <b>K</b>, or <b>KiB</b>  </td><td class="markdownTableBodyNone">Kibibyte<sup>†</sup>  </td><td class="markdownTableBodyNone">2<sup>10</sup>   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>mB</b>, or <b>m</b>  </td><td class="markdownTableBodyNone">Megabyte  </td><td class="markdownTableBodyNone">1000<sup>2</sup>   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MB</b>, <b>M</b>, or <b>MiB</b>  </td><td class="markdownTableBodyNone">Mebibyte<sup>†</sup>  </td><td class="markdownTableBodyNone">2<sup>20</sup>   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>gB</b>, or <b>g</b>  </td><td class="markdownTableBodyNone">Gigabyte  </td><td class="markdownTableBodyNone">1000<sup>3</sup>   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>GB</b>, <b>G</b>, or <b>GiB</b>  </td><td class="markdownTableBodyNone">Gibibyte<sup>†</sup>  </td><td class="markdownTableBodyNone">2<sup>30</sup>   </td></tr>
+</table>
+<p>†) Defined by the International Electrotechnical Commission (IEC).</p>
+<p>A decimal point can also be used; e.g., <code>mbs -a 100.5M</code>.</p>
 <h1><a class="anchor" id="source"></a>
 Source Code</h1>
 <ul>
