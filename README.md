@@ -28,7 +28,7 @@ active network interface (excluding `lo`).
 
 #### Examples
 
-Specify the amount of data available using the `--available` (`-a`) flag to run
+Set the amount of data available using the `--available` (`-a`) flag to run
 the command in *countdown* mode. The following example specifies a data limit 
 of 300 KB.
 
