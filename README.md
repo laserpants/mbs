@@ -71,7 +71,7 @@ will not work if the kernel's TX/RX counters were reset since the last time the
 command was run (e.g., after a system reboot).
 
 The stats file's location can be set using the `--statsfile=<path>` flag. If 
-this flag is not provided, then `$HOME/.mbs` is used as default path.
+this flag is not provided, then `$HOME/.mbs` is used as a default.
 
 ### Flags
 
