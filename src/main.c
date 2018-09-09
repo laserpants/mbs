@@ -48,13 +48,22 @@
  * make
  * @endcode
  *
- * Use `sudo make install` to install the executable, or `make test` to run the
- * tests.
+ * To install the executable
+ *
+ * @code
+ * sudo make install
+ * @endcode 
+ *
+ * or to run the tests
+ *
+ * @code
+ * make test
+ * @endcode 
  *
  * @section Usage
  *
  * @code
- * mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
+ * mbs [-vkp] [--help] [--version] [--ascii] [-a <amount>] [--statsfile=<path>] [<interface>]
  * @endcode
  *
  * If no `<interface>` is given, the program will try to automatically find an
