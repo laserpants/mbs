@@ -6,16 +6,7 @@ pre-paid bundle or some other fixed usage limit.
 
 ### Building
 
-To build the executable and tests, run
-
-```bash
-./configure
-make
-make install
-```
-
-where `make install` requires root privileges and is usually invoked 
-with `sudo`. 
+TODO
 
 ### Usage
 
