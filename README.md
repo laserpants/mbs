@@ -2,20 +2,17 @@
 
 A command line tool to keep track of the amount of data sent and received over 
 a network interface. This can be convenient for monitoring data usage against a 
-pre-paid data bundle or some other fixed usage limit.
+pre-paid bundle or some other fixed usage limit.
 
 ### Building
 
-To build the executable and tests, run
-
 ```bash
-./configure
+cd build
+cmake ..
 make
-make install
 ```
 
-where `make install` requires root privileges and is usually invoked 
-with `sudo`. 
+Use `sudo make install` to install the executable, or `make test` to run the tests.
 
 ### Usage
 
@@ -28,7 +25,7 @@ active network interface (excluding `lo`).
 
 #### Examples
 
-Specify the amount of data available using the `--available` (`-a`) flag to run
+Set the amount of data available using the `--available` (`-a`) flag to run
 the command in *countdown* mode. The following example specifies a data limit 
 of 300 KB.
 
@@ -44,7 +41,7 @@ To tell the command to monitor the network interface `wlan0`:
 mbs -a 300K wlan0
 ```
 
-By default, the command will exit once this usage limit is reached, or if the 
+By default, the command will exit once the usage limit is reached, or if the 
 connection is lost. Use the `--keep-running` flag to modify this behavior.
 
 ```
@@ -71,7 +68,7 @@ will not work if the kernel's TX/RX counters were reset since the last time the
 command was run (e.g., after a system reboot).
 
 The stats file's location can be set using the `--statsfile=<path>` flag. If 
-this flag is not provided, then `$HOME/.mbs` is used as default path.
+this flag is not provided, then `$HOME/.mbs` is used as a default.
 
 ### Flags
 

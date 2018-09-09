@@ -1,3 +1,6 @@
 [submodule "src/argtable3"]
 	path = src/argtable3
 	url = https://github.com/argtable/argtable3
+[submodule "argtable3"]
+	path = argtable3
+	url = https://github.com/argtable/argtable3
