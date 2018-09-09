@@ -48,8 +48,17 @@
  * make
  * @endcode
  *
- * Use `sudo make install` to install the executable, or `make test` to run the
- * tests.
+ * To install the executable
+ *
+ * @code
+ * sudo make install
+ * @endcode 
+ *
+ * or to run the tests
+ *
+ * @code
+ * make test
+ * @endcode 
  *
  * @section Usage
  *
