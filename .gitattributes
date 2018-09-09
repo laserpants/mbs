@@ -1,8 +1,0 @@
-*.ac linguist-vendored
-*.am linguist-vendored
-*.in linguist-vendored
-*.m4 linguist-vendored
-Makefile linguist-vendored
-depcomp linguist-vendored
-test-driver linguist-vendored
-configure linguist-vendored
