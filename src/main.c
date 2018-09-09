@@ -1,23 +1,23 @@
 /*
  * Copyright (c) 2017 Johannes Hildén <hildenjohannes@gmail.com>
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright
  *       notice, this list of conditions and the following disclaimer.
- * 
+ *
  *     * Redistributions in binary form must reproduce the above
  *       copyright notice, this list of conditions and the following
  *       disclaimer in the documentation and/or other materials provided
  *       with the distribution.
- * 
+ *
  *     * Neither the name of copyright holder nor the names of other
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -34,8 +34,8 @@
 /**
  * @mainpage Welcome!
  *
- * Mbs is a command line tool to keep track of the amount of data sent and 
- * received over a network interface. It is convenient for monitoring data 
+ * Mbs is a command line tool to keep track of the amount of data sent and
+ * received over a network interface. It is convenient for monitoring data
  * usage against a pre-paid data bundle or some other fixed usage limit.
  *
  * @section Building
@@ -43,10 +43,13 @@
  * To build the executable and tests, run
  *
  * @code
- * ./configure
+ * cd build
+ * cmake ..
  * make
- * make install
  * @endcode
+ *
+ * Use `sudo make install` to install the executable, or `make test` to run the
+ * tests.
  *
  * @section Usage
  *
@@ -54,15 +57,15 @@
  * mbs [-vk] [--help] [--version] [--ascii] [-a <amount>] [<interface>]
  * @endcode
  *
- * If no `<interface>` is given, the program will try to automatically find an 
+ * If no `<interface>` is given, the program will try to automatically find an
  * active network interface (excluding `lo`).
  *
  * @subsection Examples
  *
- * Specify the amount of data available using the `--available` (`-a`) flag to 
- * run the command in *countdown* mode. The following example specifies a data 
+ * Specify the amount of data available using the `--available` (`-a`) flag to
+ * run the command in *countdown* mode. The following example specifies a data
  * limit of 300 KB.
- * 
+ *
  * @code
  * mbs -a 300K
  * @endcode
@@ -73,40 +76,40 @@
  * mbs -a 300K wlan0
  * @endcode
  *
- * By default, the command will exit once this usage limit is reached, or if 
- * the connection is lost. Use the `--keep-running` flag to modify this 
+ * By default, the command will exit once this usage limit is reached, or if
+ * the connection is lost. Use the `--keep-running` flag to modify this
  * behavior.
- * 
+ *
  * @code
  * mbs -a 10K --keep-running
  * @endcode
- * 
- * You can also omit the `--available` flag, in which case the command will 
- * run in a simplified mode&mdash;only showing the amount of data used since it 
+ *
+ * You can also omit the `--available` flag, in which case the command will
+ * run in a simplified mode&mdash;only showing the amount of data used since it
  * started.
- * 
+ *
  * @subsection persistent Persistent sessions
  *
- * When the command is run with the `--persistent` (`-p`) flag, it will try to 
- * continue from where the last session ended. It does so by reading the last 
- * saved state (sent and received bytes count) from a *stats* file. Note that 
- * this will not work if the kernel's TX RX counters were reset since the last 
+ * When the command is run with the `--persistent` (`-p`) flag, it will try to
+ * continue from where the last session ended. It does so by reading the last
+ * saved state (sent and received bytes count) from a *stats* file. Note that
+ * this will not work if the kernel's TX RX counters were reset since the last
  * time the command was run (e.g., after a system reboot).
  *
- * The stats file's location can be set using the `--statsfile=<path>` flag. If 
+ * The stats file's location can be set using the `--statsfile=<path>` flag. If
  * this flag is not provided, then `$HOME/.mbs` is used as default path.
  *
  * @section Flags
  *
  * | Flag             | Short option   | Description                             |
  * |------------------|----------------|-----------------------------------------|
- * | `--help`         |                | Display help and exit.                  |   
- * | `--version`      |                | Display version info and exit.          |   
- * | `--verbose`      | `-v`           | Render verbose output.                  |   
- * | `--ascii`        |                | Disable non-ascii Unicode characters.   |   
- * | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |   
+ * | `--help`         |                | Display help and exit.                  |
+ * | `--version`      |                | Display version info and exit.          |
+ * | `--verbose`      | `-v`           | Render verbose output.                  |
+ * | `--ascii`        |                | Disable non-ascii Unicode characters.   |
+ * | `--keep-running` | `-k`           | Do not exit when data limit is exceeded or connection is lost. |
  * | `--persistent`   | `-p`           | Continue from where last session ended. |
- * | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |   
+ * | `--available`    | `-a`           | Amount of data available to use in your subscription plan or budget. |
  * | `--statsfile`    |                | Override default stats file path.       |
  *
  * The `--available` argument accepts the following suffixes:
@@ -120,11 +123,11 @@
  * | **MB**, **M**, or **MiB**  | Mebibyte<sup>†</sup>   | 2<sup>20</sup>   |
  * | **gB**, or **g**           | Gigabyte               | 1000<sup>3</sup> |
  * | **GB**, **G**, or **GiB**  | Gibibyte<sup>†</sup>   | 2<sup>30</sup>   |
- * 
+ *
  * †) Defined by the International Electrotechnical Commission (IEC).
- * 
+ *
  * A decimal point can also be used; e.g., `mbs -a 100.5M`.
- * 
+ *
  * @section source Source Code
  *
  * - GitHub: https://github.com/laserpants/mbs
@@ -136,7 +139,7 @@
  *
  * @author Johannes Hildén <hildenjohannes@gmail.com>
  */
-#define _BSD_SOURCE 
+#define _BSD_SOURCE
 #define __STDC_FORMAT_MACROS
 
 #include <inttypes.h>
@@ -153,8 +156,8 @@
 
 static volatile bool loop = true;
 
-static void 
-sig_handler (int signo) 
+static void
+sig_handler (int signo)
 {
     if (signo != SIGINT)
         return;
@@ -164,7 +167,7 @@ sig_handler (int signo)
 
 /**
  * @brief This is the application's main entry point. After initialization,
- * it runs the main loop until a `SIGINT` signal is received, or the user 
+ * it runs the main loop until a `SIGINT` signal is received, or the user
  * presses the 'Q' key.
  */
 int
@@ -198,7 +201,7 @@ main (int argc, char *argv[])
     if (state.flags & FLAG_VERBOSE)
         printf ("Using stats file: %s\n", state.statsfile);
 
-    if (-1 == access (state.statsfile, F_OK)) 
+    if (-1 == access (state.statsfile, F_OK))
     {
         FILE *file;
         file = fopen (state.statsfile, "w+");
@@ -206,7 +209,7 @@ main (int argc, char *argv[])
         fflush (file);
         fclose (file);
         state.flags &= ~FLAG_PERSISTENT;
-    } 
+    }
 
     state.file = fopen (state.statsfile, "r+");
 
@@ -223,16 +226,16 @@ main (int argc, char *argv[])
             &state.snapshot.rx_bytes,
             &state.used.tx_bytes,
             &state.used.rx_bytes,
-            &balance)) 
+            &balance))
         {
             if (state.flags & FLAG_VERBOSE)
             {
                 printf (
-                    "Snapshot TX bytes: %"PRIu64"\n", 
+                    "Snapshot TX bytes: %"PRIu64"\n",
                     state.snapshot.tx_bytes
                 );
                 printf (
-                    "Snapshot RX bytes: %"PRIu64"\n", 
+                    "Snapshot RX bytes: %"PRIu64"\n",
                     state.snapshot.rx_bytes
                 );
                 printf ("Used TX bytes: %"PRIu64"\n", state.used.tx_bytes);
@@ -266,15 +269,15 @@ main (int argc, char *argv[])
             fclose (state.file);
 
         return EXIT_FAILURE;
-    } 
+    }
 
     if (state.flags & FLAG_PERSISTENT)
     {
-        if (state.snapshot.tx_bytes > stats.tx_bytes || 
+        if (state.snapshot.tx_bytes > stats.tx_bytes ||
             state.snapshot.rx_bytes > stats.rx_bytes)
         {
             fprintf (
-                stderr, 
+                stderr,
                 "Error: The --persistent flag was provided, but it looks like "
                 "the kernel's TX/RX counters were reset since last session.\n"
             );
@@ -379,7 +382,7 @@ main (int argc, char *argv[])
 
                 return EXIT_FAILURE;
             }
-        } 
+        }
         else
         {
             const uint64_t tx_diff = stats.tx_bytes - state.snapshot.tx_bytes,
@@ -405,8 +408,8 @@ main (int argc, char *argv[])
                 rewind (state.file);
 
                 if (-1 == ftruncate (fileno (state.file), fprintf (
-                    state.file, 
-                    "%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64, 
+                    state.file,
+                    "%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64":%"PRIu64,
                     stats.tx_bytes,
                     stats.rx_bytes,
                     state.used.tx_bytes,
@@ -422,14 +425,14 @@ main (int argc, char *argv[])
 
             draw_window (&state, !!tx_diff, !!rx_diff);
 
-            if ((state.flags & FLAG_COUNTDOWN) 
-             && !state.balance 
-             && !(state.flags & FLAG_NO_EXIT)) 
+            if ((state.flags & FLAG_COUNTDOWN)
+             && !state.balance
+             && !(state.flags & FLAG_NO_EXIT))
                 break;
         }
 
         FD_ZERO (&s_rd);
-        FD_SET (fileno (stdin), &s_rd); 
+        FD_SET (fileno (stdin), &s_rd);
 
         tv.tv_sec = 0;
         tv.tv_usec = 200000;
@@ -445,7 +448,7 @@ main (int argc, char *argv[])
     {
         printf ("Data limit exceeded.\n");
     }
-    else 
+    else
     {
         printf ("Terminated!\n");
     }

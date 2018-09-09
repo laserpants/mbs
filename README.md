@@ -6,7 +6,13 @@ pre-paid bundle or some other fixed usage limit.
 
 ### Building
 
-TODO
+```bash
+cd build
+cmake ..
+make
+```
+
+Use `sudo make install` to install the executable, or `make test` to run the tests.
 
 ### Usage
 
