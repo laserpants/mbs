@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.4)
 project(mbs C)
 
 add_subdirectory(src/argtable3)
+add_subdirectory(src/tests)
 
 file(GLOB SRCS src/*.c)
 
