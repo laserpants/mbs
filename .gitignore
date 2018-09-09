@@ -1,13 +1,1 @@
-*.o
-*~
-.dirstamp
-.deps/
-/compile
-/config.log
-/config.status
-/missing
-/test-suite.log
-/testexe.log
-/testexe.trs
-/html
-autom4te.cache/
+build/
