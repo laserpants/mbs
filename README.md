@@ -6,8 +6,15 @@ pre-paid bundle or some other fixed usage limit.
 
 ### Building
 
-Install [ncurses](https://www.gnu.org/software/ncurses/). For Linux systems, 
+* Install [ncurses](https://www.gnu.org/software/ncurses/). For Linux systems, 
 see [this page](https://www.cyberciti.biz/faq/linux-install-ncurses-library-headers-on-debian-ubuntu-centos-fedora/).
+* Clone this repo. **Note:** The `--recursive` flag is required to download the git submodule.
+
+```bash
+git clone --recursive https://github.com/laserpants/mbs/
+```
+
+The build and install the command:
 
 ```bash
 cd build
@@ -16,6 +23,11 @@ make
 ```
 
 Use `sudo make install` to install the executable, or `make test` to run the tests.
+
+```bash
+$ mbs --version
+mbs version 0.1.2
+```
 
 ### Usage
 
