@@ -6,6 +6,9 @@ pre-paid bundle or some other fixed usage limit.
 
 ### Building
 
+Install [ncurses](https://www.gnu.org/software/ncurses/). For Linux systems, 
+see [this page](https://www.cyberciti.biz/faq/linux-install-ncurses-library-headers-on-debian-ubuntu-centos-fedora/).
+
 ```bash
 cd build
 cmake ..
