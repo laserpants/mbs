@@ -6,9 +6,9 @@ pre-paid bundle or some other fixed usage limit.
 
 ### Building
 
-* Install [ncurses](https://www.gnu.org/software/ncurses/). For Linux systems, 
+1. Install [ncurses](https://www.gnu.org/software/ncurses/). For Linux systems, 
 see [this page](https://www.cyberciti.biz/faq/linux-install-ncurses-library-headers-on-debian-ubuntu-centos-fedora/).
-* Clone this repo. **Note:** The `--recursive` flag is required to download the git submodule.
+2. Clone this repo. **Note:** The `--recursive` flag (to download git submodules) is required.
 
 ```bash
 git clone --recursive https://github.com/laserpants/mbs/
