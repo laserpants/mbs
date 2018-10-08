@@ -14,7 +14,7 @@ see [this page](https://www.cyberciti.biz/faq/linux-install-ncurses-library-head
 git clone --recursive https://github.com/laserpants/mbs/
 ```
 
-The build and install the command:
+3. To build and install the command:
 
 ```bash
 cd build
