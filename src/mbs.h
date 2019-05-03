@@ -223,7 +223,7 @@ void mbs_getopt (int argc, char *argv[], struct mbs *s);
 
 /**
  * @brief Sample the amount of data transmitted and received since the last
-  *       iteration and write the results to the provided \ref stats struct. 
+ *        iteration and write the results to the provided \ref stats struct. 
  *
  * @param  s     An \ref mbs struct holding application state and configuration
  *               settings. (Like `this` in class-based OOP).
